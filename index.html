@@ -130,7 +130,6 @@ h1,h2,h3{ text-wrap:balance }
   <main class="shell" id="mainContent" tabindex="-1">
     <header class="top">
       <div class="top-title"><div class="eyebrow" id="topEyebrow">Consigna y alcance</div><h1 id="topTitle" tabindex="-1">Enunciado del trabajo</h1></div>
-      <div class="tools"><button class="btn" id="exportMermaid" style="display: none;">Exportar Mermaid</button><button class="btn primary" id="printBtn">Imprimir / PDF</button></div>
     </header>
     <div class="content">
 
@@ -317,7 +316,6 @@ function switchView(name, sync=true){
  ['brief','records','architecture','deployment'].forEach(id=>el('view-'+id).classList.toggle('hide',id==='records'?!recordViews.includes(name):id!==name));
  const titles={brief:['Consigna y alcance','Enunciado del trabajo'],problems:['Diseño integrado','Problema'],failures:['Diseño integrado','Falla'],guarantees:['Diseño integrado','Garantía'],solutions:['Diseño integrado','Solución'],tradeoffs:['Diseño integrado','Trade-off'],architecture:['Diseño del sistema','Arquitectura general'],deployment:['Infraestructura','Distribución entre datacenters']};
  el('topEyebrow').textContent=titles[name][0];el('topTitle').textContent=titles[name][1];document.title=titles[name][1]+' · Asteria Online';
- el('exportMermaid').style.display=['architecture','solutions','deployment'].includes(name)?'':'none';
  if(recordViews.includes(name)){
   const intro={problems:['Qué problema resuelve cada caso.','Seleccioná un caso para consultar el problema que resuelve.'],failures:['Qué puede fallar.','Seleccioná un caso y una falla para ver cómo responde el sistema y cuáles son sus límites.'],guarantees:['Qué protege cada caso.','Seleccioná un caso para consultar sus garantías de negocio.'],tradeoffs:['Qué se prioriza y qué se acepta.','Consultá la prioridad CAP y sus consecuencias para la solución seleccionada.'],solutions:['Cómo responde el diseño.','Seleccioná un caso para consultar su solución, comparar variantes y abrir la descripción completa.']};
   el('recordIntroTitle').textContent=intro[name][0];el('recordIntroText').textContent=intro[name][1];
@@ -429,7 +427,6 @@ function mermaidActive(){
 }
 function downloadFile(name,content,type='text/plain;charset=utf-8'){const blob=new Blob([content],{type});const link=document.createElement('a');const url=URL.createObjectURL(blob);link.href=url;link.download=name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
 function exportMermaid(){const item=mermaidActive();downloadFile(item.filename,item.code);toast('Mermaid de esta vista exportado')}
-el('exportMermaid').onclick=exportMermaid;el('printBtn').onclick=()=>{toast('Usá Imprimir / Guardar como PDF del navegador');window.print()};
 // Location state survives refresh and browser Back without storing personal data.
 let routeReady=false;
 const recordViews=['problems','failures','guarantees','solutions','tradeoffs'];
