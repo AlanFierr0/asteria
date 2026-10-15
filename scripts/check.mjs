@@ -89,7 +89,7 @@ assert.equal(context.parseRoute('#records?case=market').view, 'problems', 'Keep 
 assert.equal(context.parseRoute('#flows?case=capacity&variant=s2').view, 'solutions', 'Old process links open Solution');
 assert.equal(context.parseRoute('#flows?case=capacity&step=3').params.get('step'), '3');
 context.writeRoute();
-assert.equal(context.parseRoute(written).params.get('q'), 'oro & ítems');
+assert.equal(context.parseRoute(written).params.has('q'), false, 'Case routes no longer serialize search');
 assert.equal(context.parseRoute(written).params.get('failure'), '2');
 for (const view of context.recordViews) {
   context.activeView = view;
