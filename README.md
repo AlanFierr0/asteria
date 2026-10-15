@@ -10,7 +10,7 @@ Abrir `index.html` en un navegador. El documento incluye estilos, scripts y el P
 
 Trabajo práctico: Enunciado.
 
-Diseño integrado: Problemas, Fallas, Soluciones, Arquitectura, Procesos y fallas, Datacenters, y Garantías y límites. Problemas, Fallas y Soluciones tienen pestañas independientes y conservan el caso seleccionado al cambiar entre ellas.
+Diseño integrado: Problema, Falla, Garantía, Solución, Trade-off, Arquitectura y Datacenters. Las primeras cinco pestañas conservan el caso seleccionado. Solución incluye el diagrama de interacción y las variantes S1/S2; Trade-off muestra la prioridad CAP y sus consecuencias para cada variante. Los enlaces anteriores a Procesos y fallas abren Solución.
 
 Las secciones y selecciones se pueden compartir mediante su URL. El diseño se adapta a pantallas pequeñas y a la preferencia de apariencia del sistema.
 

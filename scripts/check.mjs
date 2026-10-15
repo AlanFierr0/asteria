@@ -14,10 +14,13 @@ const cases = JSON.parse(script.match(/const sourceCases=(\[[^\n]+\]);/)[1]);
 assert.equal(cases.length, 7);
 assert.equal(cases.reduce((total, item) => total + item.failures.length, 0), 22);
 assert.equal(cases.reduce((total, item) => total + item.solutions.length, 0), 8);
+assert.equal(cases.reduce((total, item) => total + item.guarantees.length, 0), 11);
+assert.ok(cases.every(item => item.solutions.every(solution => solution.tradeoff?.length > 20)), 'Each solution needs its stated trade-off');
+assert.match(cases.find(item => item.id === 'capacity').solutions[1].tradeoff, /reserva no se ajuste a la carga global/);
 const dataSource = script.slice(script.indexOf('const groups='), script.indexOf("let activeView="));
 const exportSource = script.slice(script.indexOf('function mermaidActive('), script.indexOf('function downloadFile('));
 const stepsSource = script.match(/function currentSteps\(\)\{[^\n]+/)[0];
-const exportContext = vm.createContext({ activeView: 'flows', activeCase: 'capacity' });
+const exportContext = vm.createContext({ activeView: 'solutions', activeCase: 'capacity' });
 vm.runInContext(dataSource + stepsSource + '\n' + exportSource, exportContext);
 vm.runInContext("caseById.capacity.variant='s2'", exportContext);
 assert.equal(exportContext.mermaidActive().filename, 'asteria_06_capacity_s2.mmd');
@@ -64,8 +67,8 @@ const routeSource = script.slice(script.indexOf('function parseRoute('), script.
 let written;
 const context = vm.createContext({
   URLSearchParams,
-  recordViews: ['problems', 'failures', 'solutions'],
-  viewNames: ['brief', 'problems', 'failures', 'solutions', 'architecture', 'flows', 'deployment', 'guarantees'],
+  recordViews: ['problems', 'failures', 'guarantees', 'solutions', 'tradeoffs'],
+  viewNames: ['brief', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment'],
   routeReady: true, activeView: 'failures', activeRecord: 'market',
   selectedFailure: 2, selectedSolution: 0, activeCase: 'capacity', activeStep: 3,
   activeFault: 1, activeModule: 'payments', dcMode: 'partition',
@@ -80,11 +83,12 @@ const context = vm.createContext({
 vm.runInContext(routeSource, context);
 assert.equal(context.parseRoute('#unknown?case=market').view, 'brief');
 assert.equal(context.parseRoute('#records?case=market').view, 'problems', 'Keep old case links working');
+assert.equal(context.parseRoute('#flows?case=capacity&variant=s2').view, 'solutions', 'Old process links open Solution');
 assert.equal(context.parseRoute('#flows?case=capacity&step=3').params.get('step'), '3');
 context.writeRoute();
 assert.equal(context.parseRoute(written).params.get('q'), 'oro & ítems');
 assert.equal(context.parseRoute(written).params.get('failure'), '2');
-for (const view of ['problems', 'failures', 'solutions']) {
+for (const view of context.recordViews) {
   context.activeView = view;
   context.writeRoute();
   assert.equal(context.parseRoute(written).view, view);
@@ -92,10 +96,14 @@ for (const view of ['problems', 'failures', 'solutions']) {
 }
 const nav = markup.match(/<nav class="nav-main"[\s\S]*?<\/nav>/)[0];
 assert.deepEqual([...nav.split('Diseño integrado')[0].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['brief']);
-assert.deepEqual([...nav.split('Diseño integrado')[1].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]).slice(0, 3), ['problems', 'failures', 'solutions']);
-context.activeView = 'flows';
+assert.deepEqual([...nav.split('Diseño integrado')[1].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment']);
+context.activeView = 'solutions';
+context.activeRecord = 'capacity';
+context.selectedFailure = 0;
+context.selectedSolution = 1;
+context.el = () => ({ value: '' });
 context.writeRoute();
-assert.equal(written, '#flows?case=capacity&step=3&fault=1&variant=s2');
+assert.equal(written, '#solutions?case=capacity&solution=1&step=3');
 context.activeView = 'architecture';
 context.writeRoute(true);
 assert.equal(written, '#architecture?module=payments');
