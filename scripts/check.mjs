@@ -15,8 +15,11 @@ assert.equal(cases.length, 7);
 assert.equal(cases.reduce((total, item) => total + item.failures.length, 0), 22);
 assert.equal(cases.reduce((total, item) => total + item.solutions.length, 0), 8);
 assert.equal(cases.reduce((total, item) => total + item.guarantees.length, 0), 11);
-assert.ok(cases.every(item => item.solutions.every(solution => solution.tradeoff?.length > 20)), 'Each solution needs its stated trade-off');
-assert.match(cases.find(item => item.id === 'capacity').solutions[1].tradeoff, /reserva no se ajuste a la carga global/);
+assert.ok(cases.every(item => item.solutions.every(({ tradeoff }) =>
+  tradeoff.can.length > 0 && tradeoff.limits.length > 0 && tradeoff.cost.length > 20
+)), 'Each solution needs capabilities, limitations and an accepted cost');
+assert.match(cases.find(item => item.id === 'capacity').solutions[1].tradeoff.cost, /reserva que puede no ajustarse a la carga global/);
+assert.match(cases.find(item => item.id === 'payments').solutions[0].tradeoff.limits.join(' '), /no define el comportamiento ante una partición/);
 const dataSource = script.slice(script.indexOf('const groups='), script.indexOf("let activeView="));
 const exportSource = script.slice(script.indexOf('function mermaidActive('), script.indexOf('function downloadFile('));
 const stepsSource = script.match(/function currentSteps\(\)\{[^\n]+/)[0];

@@ -10,7 +10,7 @@ Abrir `index.html` en un navegador. El documento incluye estilos, scripts y el P
 
 Trabajo práctico: Enunciado.
 
-Diseño integrado: Problema, Falla, Garantía, Solución, Trade-off, Arquitectura y Datacenters. Las primeras cinco pestañas conservan el caso seleccionado. Solución incluye el diagrama de interacción y las variantes S1/S2; Trade-off muestra la prioridad CAP y sus consecuencias para cada variante. Los enlaces anteriores a Procesos y fallas abren Solución.
+Diseño integrado: Problema, Falla, Garantía, Solución, Trade-off, Arquitectura y Datacenters. Las primeras cinco pestañas conservan el caso seleccionado. Solución incluye el diagrama de interacción y las variantes S1/S2; Trade-off explica qué puede seguir haciendo el sistema ante fallas, qué queda limitado, qué garantías mantiene y qué costo acepta para cada variante. Los enlaces anteriores a Procesos y fallas abren Solución.
 
 Las secciones y selecciones se pueden compartir mediante su URL. El diseño se adapta a pantallas pequeñas y a la preferencia de apariencia del sistema.
 
