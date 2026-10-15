@@ -14,6 +14,10 @@ The initial audit covered Enunciado, Problemas · fallas · soluciones, Arquitec
 
 At the user's request, Trabajo práctico now contains only Enunciado. Problemas, Fallas and Soluciones are three independent tabs under Diseño integrado, followed by the existing architecture, processes, datacenters and guarantees tabs. Each shows its relevant content and retains the selected case across tabs. Problems includes its business guarantees; solutions retains the full original description and S1/S2 variants. Existing `#records` links open Problemas with their case parameters intact.
 
+### Architecture arrow routing
+
+The architecture's curved connectors were replaced with dedicated orthogonal lanes around the existing module cards. All 21 directed connections, subsystem colors, selection highlights, and exports are retained. Longer return and support connections use the perimeter. Geometry checks verify that every connection has a route, endpoints land on their source and target borders, arrows avoid module interiors, and crossings stay at or below six. Routes are intentionally tied to the fixed module layout; layout changes must pass these checks.
+
 ## Audit and implementation plan
 
 | Priority | Finding | Location in the original HTML | Implemented improvement |

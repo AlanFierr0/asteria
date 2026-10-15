@@ -25,6 +25,41 @@ assert.equal(exportContext.mermaidActive().code.match(/->>/g).length, 5);
 const pdf = vm.runInContext('originalPdfs.brief', exportContext);
 assert.equal(Buffer.from(pdf, 'base64').subarray(0, 5).toString(), '%PDF-');
 
+vm.runInContext(script.slice(script.indexOf('const graphRoutes='), script.indexOf('let zoom=')), exportContext);
+const { mods, edgeDefs, graphRoutes } = vm.runInContext('({mods,edgeDefs,graphRoutes})', exportContext);
+assert.deepEqual(Object.keys(graphRoutes).sort(), Array.from(edgeDefs, ([a, b]) => `${a}-${b}`).sort());
+const onBorder = ([x, y], box) => x >= box.x && x <= box.x + box.w && y >= box.y && y <= box.y + box.h &&
+  (x === box.x || x === box.x + box.w || y === box.y || y === box.y + box.h);
+const segments = [];
+for (const [a, b] of edgeDefs) {
+  const points = graphRoutes[`${a}-${b}`];
+  assert.ok(onBorder(points[0], mods[a]) && onBorder(points.at(-1), mods[b]), `${a}-${b}: wrong arrow endpoints`);
+  assert.ok(exportContext.pathBetween(a, b).startsWith('M'));
+  for (let i = 1; i < points.length; i++) {
+    const [p, q] = [points[i - 1], points[i]];
+    assert.ok(p[0] === q[0] || p[1] === q[1], `${a}-${b}: diagonal segment`);
+    for (const box of Object.values(mods)) {
+      const cutsCard = p[0] === q[0]
+        ? p[0] > box.x && p[0] < box.x + box.w && Math.max(Math.min(p[1], q[1]), box.y) < Math.min(Math.max(p[1], q[1]), box.y + box.h)
+        : p[1] > box.y && p[1] < box.y + box.h && Math.max(Math.min(p[0], q[0]), box.x) < Math.min(Math.max(p[0], q[0]), box.x + box.w);
+      assert.ok(!cutsCard, `${a}-${b}: arrow cuts through a module`);
+    }
+    segments.push({ edge: `${a}-${b}`, p, q });
+  }
+}
+const crossings = new Set();
+for (let i = 0; i < segments.length; i++) for (let j = i + 1; j < segments.length; j++) {
+  const a = segments[i], b = segments[j];
+  if (a.edge === b.edge) continue;
+  const vertical = a.p[0] === a.q[0] ? a : b;
+  const horizontal = vertical === a ? b : a;
+  if (vertical.p[0] !== vertical.q[0] || horizontal.p[1] !== horizontal.q[1]) continue;
+  const x = vertical.p[0], y = horizontal.p[1];
+  if (x >= Math.min(horizontal.p[0], horizontal.q[0]) && x <= Math.max(horizontal.p[0], horizontal.q[0]) &&
+      y >= Math.min(vertical.p[1], vertical.q[1]) && y <= Math.max(vertical.p[1], vertical.q[1])) crossings.add(`${x},${y}`);
+}
+assert.ok(crossings.size <= 6, `Architecture has ${crossings.size} arrow crossings; expected at most 6`);
+
 const routeSource = script.slice(script.indexOf('function parseRoute('), script.indexOf('function restoreRoute('));
 let written;
 const context = vm.createContext({
@@ -82,4 +117,4 @@ if (process.argv.includes('--fixtures')) {
   })) writeFileSync(new URL(`${name}.html`, dir), css);
   console.log(`Media fixtures: ${fileURLToPath(dir)}`);
 }
-console.log('PASS: script syntax, unique IDs, 7 cases / 22 failures / 8 solutions, Mermaid/PDF payloads, and URL state.');
+console.log('PASS: script syntax, unique IDs, source counts, architecture routing (21 connections, no card intersections), Mermaid/PDF payloads, and URL state.');

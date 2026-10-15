@@ -372,12 +372,31 @@ document.querySelector('.skip-link').onclick=e=>{e.preventDefault();el('mainCont
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&el('mainNav').classList.contains('is-open')){el('mainNav').classList.remove('is-open');el('navToggle').setAttribute('aria-expanded','false');el('navToggle').focus()}});
 
 const colors={access:{bg:'#e8f0fe',border:'#80aae3',ink:'#245b9a'},game:{bg:'#e7f6ee',border:'#87c9a7',ink:'#23694e'},economy:{bg:'#fff1d7',border:'#ddb97d',ink:'#86601f'},infra:{bg:'#f0ebff',border:'#b7a6dc',ink:'#674da5'},client:{bg:'#192a42',border:'#192a42',ink:'#ffffff'}};
-function pathBetween(a,b){const A=mods[a],B=mods[b];const x1=A.x+A.w/2,y1=A.y+A.h/2,x2=B.x+B.w/2,y2=B.y+B.h/2;
- // Edges are routed behind cards and highlighted on selection.
- if(Math.abs(y1-y2)<35){if(x2>=x1)return `M${A.x+A.w},${y1} C${A.x+A.w+25},${y1} ${B.x-25},${y2} ${B.x},${y2}`;const y=Math.min(A.y,B.y)-82;return `M${x1},${A.y} C${x1},${y} ${x2},${y} ${x2},${B.y}`}
- if(y2>y1){const sx=x1,sy=A.y+A.h,ex=x2,ey=B.y;const mid=sy+(ey-sy)*.50;return `M${sx},${sy} C${sx},${mid} ${ex},${mid} ${ex},${ey}`}
- const sx=x1,sy=A.y,ex=x2,ey=B.y+B.h;const mid=ey+(sy-ey)*.45;return `M${sx},${sy} C${sx},${mid} ${ex},${mid} ${ex},${ey}`;
-}
+// Dedicated lanes follow the fixed module layout without cutting through other cards.
+const graphRoutes={
+ 'client-access':[[253,350],[325,350]],
+ 'access-directory':[[570,350],[623,350]],
+ 'directory-entry':[[878,350],[963,350]],
+ 'entry-instances':[[1214,350],[1274,350]],
+ 'instances-combat':[[1527,350],[1577,350]],
+ 'combat-rewards':[[1862,350],[1913,350]],
+ 'rewards-economy':[[2163,425],[2163,604]],
+ 'access-market':[[509,425],[509,639],[1021,639]],
+ 'access-payments':[[570,390],[605,390],[605,525],[1501,525],[1501,604]],
+ 'market-economy':[[1234,714],[1234,732],[1884,732],[1884,679],[1902,679]],
+ 'payments-economy':[[1711,639],[1902,639]],
+ 'entry-economy':[[1151,425],[1151,485],[1987,485],[1987,604]],
+ 'instances-directory':[[1337,315],[1337,297],[814,297],[814,315]],
+ 'entry-registry':[[1026,315],[1026,275],[945,275],[945,190],[21,190],[21,835],[957,835],[957,928]],
+ 'combat-log':[[1791,315],[1791,297],[2261,297],[2261,910],[1591,910],[1591,958],[1573,958]],
+ 'market-log':[[1163,714],[1163,958],[1253,958]],
+ 'directory-log':[[687,315],[687,297],[280,297],[280,795],[1092,795],[1092,910],[1140,910],[1140,998],[1253,998]],
+ 'rewards-log':[[2246,390],[2300,390],[2300,1046],[1591,1046],[1591,998],[1573,998]],
+ 'economy-audit':[[1987,714],[1987,928]],
+ 'recovery-instances':[[659,998],[774,998],[774,1084],[2350,1084],[2350,190],[1464,190],[1464,315]],
+ 'recovery-access':[[339,958],[307,958],[307,390],[325,390]]
+};
+function pathBetween(a,b){return 'M'+graphRoutes[a+'-'+b].map(point=>point.join(',')).join(' L')}
 let zoom=1,panX=0,panY=0,dragStart=null,moved=false;
 function applyTransform(){const g=el('panLayer');if(g)g.setAttribute('transform',`translate(${panX} ${panY}) scale(${zoom})`)}
 function renderGraph(){const s=el('archSvg');s.replaceChildren();const defs=svgEl('defs');const arrow=svgEl('marker',{id:'archArrow',viewBox:'0 0 10 10',refX:'8',refY:'5',markerWidth:'7',markerHeight:'7',orient:'auto-start-reverse'});arrow.append(svgEl('path',{d:'M0,1 L9,5 L0,9 z',fill:'#8fa0b5'}));defs.append(arrow);s.append(defs);const root=svgEl('g',{id:'panLayer'});s.append(root);
