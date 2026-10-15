@@ -29,8 +29,9 @@ const routeSource = script.slice(script.indexOf('function parseRoute('), script.
 let written;
 const context = vm.createContext({
   URLSearchParams,
-  viewNames: ['brief', 'records', 'architecture', 'flows', 'deployment', 'guarantees'],
-  routeReady: true, activeView: 'records', activeRecord: 'market',
+  recordViews: ['problems', 'failures', 'solutions'],
+  viewNames: ['brief', 'problems', 'failures', 'solutions', 'architecture', 'flows', 'deployment', 'guarantees'],
+  routeReady: true, activeView: 'failures', activeRecord: 'market',
   selectedFailure: 2, selectedSolution: 0, activeCase: 'capacity', activeStep: 3,
   activeFault: 1, activeModule: 'payments', dcMode: 'partition',
   caseById: { capacity: { variant: 's2' } },
@@ -43,10 +44,20 @@ const context = vm.createContext({
 });
 vm.runInContext(routeSource, context);
 assert.equal(context.parseRoute('#unknown?case=market').view, 'brief');
+assert.equal(context.parseRoute('#records?case=market').view, 'problems', 'Keep old case links working');
 assert.equal(context.parseRoute('#flows?case=capacity&step=3').params.get('step'), '3');
 context.writeRoute();
 assert.equal(context.parseRoute(written).params.get('q'), 'oro & ítems');
 assert.equal(context.parseRoute(written).params.get('failure'), '2');
+for (const view of ['problems', 'failures', 'solutions']) {
+  context.activeView = view;
+  context.writeRoute();
+  assert.equal(context.parseRoute(written).view, view);
+  assert.equal(context.parseRoute(written).params.get('case'), 'market');
+}
+const nav = markup.match(/<nav class="nav-main"[\s\S]*?<\/nav>/)[0];
+assert.deepEqual([...nav.split('Diseño integrado')[0].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['brief']);
+assert.deepEqual([...nav.split('Diseño integrado')[1].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]).slice(0, 3), ['problems', 'failures', 'solutions']);
 context.activeView = 'flows';
 context.writeRoute();
 assert.equal(written, '#flows?case=capacity&step=3&fault=1&variant=s2');

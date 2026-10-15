@@ -8,7 +8,9 @@ Sitio publicado: https://asteria.alanfierro.dev
 
 Abrir `index.html` en un navegador. El documento incluye estilos, scripts y el PDF del enunciado; no requiere instalación ni dependencias.
 
-Secciones: enunciado, problemas y soluciones, arquitectura, procesos y fallas, datacenters, y garantías y límites.
+Trabajo práctico: Enunciado.
+
+Diseño integrado: Problemas, Fallas, Soluciones, Arquitectura, Procesos y fallas, Datacenters, y Garantías y límites. Problemas, Fallas y Soluciones tienen pestañas independientes y conservan el caso seleccionado al cambiar entre ellas.
 
 Las secciones y selecciones se pueden compartir mediante su URL. El diseño se adapta a pantallas pequeñas y a la preferencia de apariencia del sistema.
 

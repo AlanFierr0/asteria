@@ -8,7 +8,11 @@ Preserve the technical document, its Spanish voice, navigation labels, Asteria m
 
 Baseline tokens: navy `#101c30`, accent `#376bcb`, ink `#192b42`, light background `#f3f6fb`, white panels. The original declared Inter without loading it; the implementation uses the existing system-font fallback explicitly. Panels use a 12px radius and controls use 8px. Diagram colors continue identifying subsystems.
 
-Information architecture remains Enunciado, Problemas · fallas · soluciones, Arquitectura, Procesos y fallas, Datacenters, and Garantías y límites. The essential journeys are reading a case, inspecting its failures and guarantees, opening the related process, exploring a module, and comparing datacenter scenarios.
+The initial audit covered Enunciado, Problemas · fallas · soluciones, Arquitectura, Procesos y fallas, Datacenters, and Garantías y límites. The essential journeys are reading a case, inspecting its failures and guarantees, opening the related process, exploring a module, and comparing datacenter scenarios.
+
+### Navigation follow-up
+
+At the user's request, Trabajo práctico now contains only Enunciado. Problemas, Fallas and Soluciones are three independent tabs under Diseño integrado, followed by the existing architecture, processes, datacenters and guarantees tabs. Each shows its relevant content and retains the selected case across tabs. Problems includes its business guarantees; solutions retains the full original description and S1/S2 variants. Existing `#records` links open Problemas with their case parameters intact.
 
 ## Audit and implementation plan
 
