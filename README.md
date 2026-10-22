@@ -21,3 +21,7 @@ Las secciones y selecciones se pueden compartir mediante su URL. El diseño se a
 ## Integrantes
 
 Agustín Martínez, Alan Fierro, Nicolás Mangini y Tomás Alcázar.
+
+## Fuente de contenido
+
+Actualizado el 22 de octubre de 2026 según la pestaña [Correcciones](https://docs.google.com/document/d/1XIylurv8bG78HzDHQjRj1hQXe2DOTDpEpgs7KUcjLSY/edit?tab=t.15qzevb2akzo). Los resúmenes, respuestas ante fallas, diagramas, módulos, distribución de datos y trade-offs reflejan esa revisión.
