@@ -187,6 +187,20 @@ context.activeView = 'brief';
 context.writeRoute();
 assert.equal(written, '#deployment?mode=partition', 'Restoring a URL must not overwrite it');
 
+let sidebarCollapsed = false;
+const sidebarButton = { attributes: {}, setAttribute(key, value) { this.attributes[key] = value; }, getAttribute(key) { return this.attributes[key]; } };
+const sidebarContext = vm.createContext({
+  el: () => sidebarButton,
+  document: { querySelector: () => ({ classList: { toggle: () => sidebarCollapsed = !sidebarCollapsed } }) },
+});
+vm.runInContext(script.match(/function toggleSidebar\(\)\{[\s\S]*?\n\}/)[0], sidebarContext);
+sidebarContext.toggleSidebar();
+assert.equal(sidebarButton.attributes['aria-expanded'], 'false');
+assert.equal(sidebarButton.attributes['aria-label'], 'Mostrar barra lateral');
+sidebarContext.toggleSidebar();
+assert.equal(sidebarButton.attributes['aria-expanded'], 'true');
+assert.equal(sidebarCollapsed, false);
+
 if (process.argv.includes('--fixtures')) {
   const dir = new URL('.qa/', root);
   mkdirSync(dir, { recursive: true });

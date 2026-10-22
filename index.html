@@ -239,10 +239,20 @@ body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;-webkit-font-smoot
 }
 @media(prefers-reduced-motion:reduce){.btn,.switchbtn,.neighbor,.record-case{transition:none}.btn:active,.switchbtn:active,.navbtn:active{transform:none}}
 @media print{:root{color-scheme:light;--ink:#172b43;--muted:#526277;--subtle:#526277;--bg:#fff;--paper:#fff;--line:#ccd7e4;--surface-soft:#f2f5f9;--blue:#285bb1;--blueSoft:#eaf0fc;--control:#fff;--control-ink:#243e5d}.top{padding:0 0 14px}.content{padding:0}.record-hero{display:block}.record-index{display:none}.record-cell{padding:18px}.record-main{display:block}.record-main>.panel,.record-main .record-two>.panel{margin-top:18px}.tradeoff-grid,#recordTradeoff{display:block}.tradeoff-grid>.minirow,#recordTradeoff>.minirow{margin-bottom:12px}.case-solution{max-width:none}.brief-layout{display:block}.side{display:none!important}}
+.sidebar-toggle{display:none}
+@media(min-width:901px){
+ .sidebar-toggle{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;width:100%;margin:0 0 20px;border:1px solid #49648b;border-radius:8px;background:transparent;color:#d9e7ff;font-size:13px}
+ .sidebar-toggle:hover{background:#233d64}
+ .app.sidebar-collapsed{grid-template-columns:64px minmax(0,1fr)}
+ .sidebar-collapsed .side{padding:24px 10px}
+ .sidebar-collapsed .sidebar-toggle{font-size:24px}
+ .sidebar-collapsed .brand,.sidebar-collapsed .nav-main,.sidebar-collapsed .sidebar-foot{display:none}
+}
 </style></head>
 <body><a class="skip-link" href="#mainContent">Saltar al contenido</a><div class="app">
   <aside class="side" aria-label="Navegación">
     <div class="brand"><div class="mark">A</div><div><strong>ASTERIA</strong><small>TP final interactivo</small></div></div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-expanded="true" aria-controls="mainNav" aria-label="Minimizar barra lateral" title="Minimizar barra lateral">‹ Minimizar</button>
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">Menú</button>
     <nav class="nav-main" id="mainNav" aria-label="Secciones del trabajo">
       <a class="navbtn active" data-view="brief" href="#brief"><span>Enunciado</span></a>
@@ -444,6 +454,11 @@ function switchView(name, sync=true){
 }
 document.querySelectorAll('a[data-view]').forEach(a=>a.addEventListener('click',e=>{if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();switchView(a.dataset.view)}));
 el('navToggle').onclick=()=>{const open=el('mainNav').classList.toggle('is-open');el('navToggle').setAttribute('aria-expanded',String(open))};
+function toggleSidebar(){
+ const collapsed=document.querySelector('.app').classList.toggle('sidebar-collapsed'),button=el('sidebarToggle');
+ button.setAttribute('aria-expanded',String(!collapsed));button.setAttribute('aria-label',collapsed?'Mostrar barra lateral':'Minimizar barra lateral');button.title=button.getAttribute('aria-label');button.textContent=collapsed?'›':'‹ Minimizar';
+}
+el('sidebarToggle').onclick=toggleSidebar;
 document.querySelector('.skip-link').onclick=e=>{e.preventDefault();el('mainContent').focus()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&el('mainNav').classList.contains('is-open')){el('mainNav').classList.remove('is-open');el('navToggle').setAttribute('aria-expanded','false');el('navToggle').focus()}});
 
