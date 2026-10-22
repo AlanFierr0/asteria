@@ -126,7 +126,7 @@ const caseNav = markup.match(/<nav class="case-views"[\s\S]*?<\/nav>/)[0];
 assert.deepEqual([...caseNav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), Array.from(context.recordViews));
 const sections = ['recordProblem', 'recordFailures', 'recordGuarantees', 'caseSolutions', 'caseTradeoffs'].map(id => markup.indexOf(`id="${id}"`));
 assert.ok(sections.every((position, i) => position >= 0 && (i === 0 || position > sections[i - 1])), 'Cases must follow document order');
-const element = tagName => ({ tagName, children: [], textContent: '', append(...items) { this.children.push(...items); }, replaceChildren(...items) { this.children = items; } });
+const element = tagName => ({ tagName, children: [], dataset: {}, textContent: '', append(...items) { this.children.push(...items); }, replaceChildren(...items) { this.children = items; } });
 const aggregate = { caseSolutions: element('div'), caseTradeoffs: element('div') };
 const aggregateContext = vm.createContext({ document: { createElement: element }, el: id => aggregate[id], selectedSolution: 1 });
 vm.runInContext(script.slice(script.indexOf('function renderTradeoff('), script.indexOf('function renderRecordSolution(')), aggregateContext);
@@ -186,6 +186,35 @@ context.routeReady = false;
 context.activeView = 'brief';
 context.writeRoute();
 assert.equal(written, '#deployment?mode=partition', 'Restoring a URL must not overwrite it');
+
+const aids = Object.fromEntries(['caseContents', 'glossaryTerms', 'caseGlossary', 'caseComparison', 'comparisonRows'].map(id => [id, element('div')]));
+const academicContext = vm.createContext({ document: { createElement: element }, el: id => aids[id] });
+vm.runInContext(script.slice(script.indexOf('const caseSectionIds='), script.indexOf('let expandedDiagram=')), academicContext);
+for (const item of cases) {
+  academicContext.renderAcademicAids(item);
+  assert.equal(aids.caseContents.children.length, 6, 'Every complete case needs five section links');
+  for (const link of aids.caseContents.children.slice(1)) {
+    const route = context.parseRoute(link.href);
+    assert.equal(route.params.get('case'), item.id);
+    assert.ok(markup.includes(`id="case-${route.params.get('section')}"`));
+  }
+  assert.equal(aids.caseComparison.hidden, item.id !== 'capacity');
+  const references = academicContext.caseReferences(item);
+  assert.equal(references.children.length, item.solutions.length + 1);
+  assert.ok(references.children[0].textContent.includes(item.guarantees[0].id));
+  assert.equal(aids.caseGlossary.hidden, aids.glossaryTerms.children.length === 0);
+}
+academicContext.renderAcademicAids(cases.find(item => item.id === 'capacity'));
+assert.equal(aids.comparisonRows.children.length, 3);
+assert.equal(context.parseRoute(academicContext.caseSectionHref(cases[5], 'solution-S2')).params.get('solution'), '1');
+academicContext.renderAcademicAids(cases.find(item => item.id === 'payments'));
+assert.ok(aids.glossaryTerms.children.some(node => node.textContent === 'Outbox'));
+assert.doesNotThrow(() => academicContext.jumpToCaseSection('unknown'));
+assert.doesNotThrow(() => academicContext.jumpToCaseSection('solution-S2'), 'A valid section absent from this case must be ignored');
+let jumpCalls = 0;
+aids['case-solutions'] = { focus: () => jumpCalls++, scrollIntoView: options => assert.equal(options.block, 'start') };
+academicContext.jumpToCaseSection('solutions');
+assert.equal(jumpCalls, 1);
 
 let sidebarCollapsed = false;
 const sidebarButton = { attributes: {}, setAttribute(key, value) { this.attributes[key] = value; }, getAttribute(key) { return this.attributes[key]; } };

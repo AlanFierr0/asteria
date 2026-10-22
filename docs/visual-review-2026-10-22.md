@@ -44,3 +44,15 @@ Follow-up verification: all 42 combinations of seven cases and six views passed 
 Light-mode samples for case text and navigation ranged from 5.31:1 to 13.26:1; keyboard navigation retained its 3px focus outline. Print and reduced-motion CSS fixtures hid navigation and disabled transitions respectively. Automated checks cover unchanged full solution text, the absence of duplicate guarantee groups, native route state and the case-change guard/history behavior. The corrected seven-case source data was compared against the pre-cleanup snapshot and remained identical.
 
 These checks use browser viewport emulation and CSS fixtures; they do not claim physical-device, printer, screen-reader or Lighthouse certification.
+
+## Academic reading and presentation
+
+The university-project pass preserves the technical-document direction (variance 3, motion 2, density 5), corrected source data, URLs and existing tabs. The Enunciado now identifies Universidad Austral, the subject and the four authors; commission and date are omitted as requested.
+
+Complete cases include section links and references from failures to the case guarantees and individual S1/S2 texts. References deliberately describe case-level guarantees instead of inventing a per-failure mapping. Section URLs restore focus after reload/Back, repeated clicks scroll again, missing targets are ignored, and an S2 reference retains that variant when entering the Solution tab.
+
+Saturation has a responsive comparison of admission, node failure and partition behavior. Requirement/proposal/limit labels distinguish the assignment from the design. A collapsible glossary filters WAL, offset, idempotency, quorum and Outbox definitions to terms used in each case's solutions.
+
+Process and datacenter charts can open in a native modal. The original SVG is moved, preserving interactions and unique IDs. Process step selection and its explanation move with the chart; datacenters retain the selected scenario title and explanation. Close, Escape and route changes restore the SVG and controls, including their original position and focus where visible.
+
+Verification covered section/reference targets for all seven cases, all six views on a phone viewport, responsive comparison labels, glossary filtering, S2 deep links, reload, repeated links, keyboard Escape, Back while a chart was open, diagram/control restoration and containment, and light/dark reading layouts. Automated checks verify section IDs, reference counts, comparison scope, glossary filtering, invalid targets and exact original full solution text. The seven-case source JSON also matched its pre-change snapshot exactly. Diagrams remain overviews on small screens, with readable selectors and explanations; physical-device and projection-room testing remain outside this browser-based check.

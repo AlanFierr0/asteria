@@ -16,6 +16,14 @@ En Datacenters, los controles y la explicación del escenario preceden al gráfi
 
 Las secciones y selecciones se pueden compartir mediante su URL, incluso al abrir enlaces en otra pestaña. Atrás recupera el caso anterior y cambiar de caso vuelve al comienzo de la lectura. El diseño se adapta a pantallas pequeñas y a la preferencia de apariencia del sistema.
 
+## Lectura académica
+
+La ficha del Enunciado identifica a Universidad Austral, la materia y los integrantes, sin comisión ni fecha. En Caso completo, el índice permite saltar a cada sección y las fallas enlazan con las garantías del caso y sus soluciones. Son referencias al caso completo; no afirman una correspondencia individual entre cada falla y cada garantía.
+
+Los enlaces con `section` conservan el destino al recargar o volver atrás. Saturación incluye una comparación desplegable de S1/S2 sobre admisión, caída de un nodo y partición. Los rótulos Requisito, Propuesta y Límites y costos distinguen el enunciado de las decisiones de diseño. El glosario contextual explica únicamente los términos que aparecen en las soluciones del caso.
+
+Solución y Datacenters permiten ampliar el diagrama. Los procesos conservan su selector de pasos y su explicación dentro de la ampliación. Cerrar o pulsar Escape restaura el gráfico y sus controles en su posición original.
+
 ## Verificación
 
 `node scripts/check.mjs` comprueba la sintaxis, los identificadores, el contenido y el estado de las URL. La revisión visual y la vista Casos están documentadas en [docs/visual-review-2026-10-22.md](docs/visual-review-2026-10-22.md). La auditoría anterior se conserva en [docs/ux-review.md](docs/ux-review.md).
