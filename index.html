@@ -261,15 +261,14 @@ body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;-webkit-font-smoot
 @media(prefers-reduced-motion:reduce){.sidebar-toggle:active{transform:none}}
 
 .academic-info{margin:0 0 24px;padding:18px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}.academic-info strong{color:var(--ink)}.academic-info p{margin:5px 0}
-.case-contents{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;align-items:center}.case-contents a,.case-ref{color:var(--blue);text-underline-offset:4px}.case-contents a{padding:8px 0;min-height:40px}.case-contents span{color:var(--muted)}
-.case-references{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:13px}.case-references a{padding:5px 0}.failure-text{min-width:0}.reading-label{color:var(--muted);font-size:12px;font-weight:500}
+.failure-text{min-width:0}.reading-label{color:var(--muted);font-size:12px;font-weight:500}
 .case-jump{scroll-margin-top:120px}.case-jump:focus{outline:none}.glossary{padding:18px 22px;border-top:1px solid var(--line)}.glossary summary,.comparison summary{cursor:pointer;font-weight:600;min-height:28px;color:var(--ink)}.glossary dl{margin:20px 0 0}.glossary dt{font-weight:650;color:var(--ink);margin-top:18px}.glossary dd{margin:4px 0 0;font-size:15px;color:var(--muted);line-height:1.8;max-width:72ch}
 .comparison{margin-bottom:24px;border:1px solid var(--line);border-radius:8px;padding:16px}.comparison table{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px;line-height:1.7}.comparison th,.comparison td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line)}.comparison thead th{color:var(--blue)}.comparison tbody th{width:20%;font-weight:600}.comparison td{width:40%}
 .diagram-expand-row{display:flex;justify-content:flex-end;margin-top:12px}.diagram-dialog{border:1px solid var(--line);border-radius:12px;padding:0;background:var(--paper);color:var(--ink);width:calc(100vw - 32px);max-width:none;height:calc(100dvh - 32px);max-height:none}.diagram-dialog[open]{display:flex;flex-direction:column}.diagram-dialog::backdrop{background:#08111ed9}.diagram-dialog header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 22px;border-bottom:1px solid var(--line)}.diagram-dialog h2{font-size:19px;margin:0}.expanded-diagram{min-height:0;flex:1;background:#fff;padding:16px}.expanded-diagram>svg{display:block;width:100%;height:100%;max-width:none}.diagram-dialog .step-picker{padding:12px 22px}.diagram-dialog .sequence-caption{padding:14px 22px;max-height:26dvh;overflow:auto}
 .diagram-dialog #dcScenarioText{font-size:15px;line-height:1.7;color:var(--muted);margin:0;padding:14px 22px}
 @media(max-width:1180px){.case-jump{scroll-margin-top:170px}}
-@media(max-width:680px){.case-contents{gap:0 16px}.case-contents span{width:100%}.comparison thead{display:none}.comparison tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}.comparison th,.comparison td{display:block;width:100%!important;border:0;padding:6px 0}.comparison td::before{content:attr(data-variant);display:block;font-weight:700;color:var(--blue)}.diagram-dialog header{padding:12px}.diagram-dialog h2{font-size:16px}.expanded-diagram{padding:4px}.academic-info{font-size:13px}}
-@media print{.case-contents,.case-references,.diagram-expand-row,.diagram-dialog{display:none!important}}
+@media(max-width:680px){.comparison thead{display:none}.comparison tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}.comparison th,.comparison td{display:block;width:100%!important;border:0;padding:6px 0}.comparison td::before{content:attr(data-variant);display:block;font-weight:700;color:var(--blue)}.diagram-dialog header{padding:12px}.diagram-dialog h2{font-size:16px}.expanded-diagram{padding:4px}.academic-info{font-size:13px}}
+@media print{.diagram-expand-row,.diagram-dialog{display:none!important}}
 </style></head>
 <body><a class="skip-link" href="#mainContent">Saltar al contenido</a><div class="app">
   <aside class="side" aria-label="Navegación">
@@ -316,7 +315,7 @@ body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;-webkit-font-smoot
             <nav class="case-views" id="caseViews" aria-label="Secciones del caso">
               <a data-view="cases" href="#cases">Caso completo</a><a data-view="problems" href="#problems">Problema</a><a data-view="failures" href="#failures">Falla</a><a data-view="guarantees" href="#guarantees">Garantía</a><a data-view="solutions" href="#solutions">Solución</a><a data-view="tradeoffs" href="#tradeoffs">Trade-off</a>
             </nav>
-            <nav id="caseContents" class="case-contents" data-record-panels="cases" aria-label="Índice del caso"></nav>
+
             <div class="variant-picker" id="variantPicker" data-record-panels="solutions tradeoffs" hidden><span>Variante</span><div class="mode-switch" id="recordVariants" aria-label="Variante de solución"></div></div>
             <section class="case-jump panel record-cell record-problem" data-record-panels="problems cases" id="case-problem" tabindex="-1"><div class="record-subhead"><h3>P · Problema</h3><span class="reading-label">Requisito</span></div><p id="recordProblem"></p></section>
             <div class="record-two" data-record-panels="failures guarantees cases">
@@ -416,7 +415,7 @@ function renderRecord(){
   const code=document.createElement('span');code.className='failure-code';code.textContent=fault.id;
   const desc=document.createElement('span');desc.className='failure-text';
   const typ=document.createElement('span');typ.className='failure-kind';typ.textContent=fault.type;
-  desc.append(typ,document.createTextNode(fault.text));b.append(code,desc);if(activeView==='cases')desc.append(caseReferences(c));
+  desc.append(typ,document.createTextNode(fault.text));b.append(code,desc);
   if(activeView!=='cases')b.addEventListener('click',()=>{selectedFailure=i;renderRecordFailure();writeRoute()});failBox.append(b)
  });
  const gb=el('recordGuarantees');gb.replaceChildren();c.guarantees.forEach(g=>{const e=document.createElement('div');e.className='guarantee-item';const badge=document.createElement('b');badge.textContent=g.id;const body=document.createElement('span');body.textContent=g.text;e.append(badge,body);gb.append(e)});
@@ -435,7 +434,7 @@ function renderRecordFailure(){
  if(activeRecord==='directory')mapIndex=i<2?0:i===2?1:2;
  if(activeRecord==='timeout')mapIndex=i===0?0:i===1?2:1;
  const detail=caseById[activeRecord].faults[Math.min(mapIndex,caseById[activeRecord].faults.length-1)];
- d.textContent=detail[1];lim.textContent='Límite: '+detail[2];response.append(strong,d,lim,caseReferences(c))
+ d.textContent=detail[1];lim.textContent='Límite: '+detail[2];response.append(strong,d,lim)
 }
 function renderTradeoff(tradeoff,sol,c,level=4,showGuarantees=true){
  tradeoff.replaceChildren();
@@ -641,12 +640,6 @@ const caseSectionIds=['problem','failures','guarantees','solutions','tradeoffs',
 function jumpToCaseSection(section){
  if(!caseSectionIds.includes(section))return;const target=el('case-'+section);if(!target)return;target.focus({preventScroll:true});target.scrollIntoView({block:'start',behavior:'instant'});
 }
-function caseSectionHref(c,section){return '#cases?case='+c.id+'&section='+section+(section==='solution-S2'?'&solution=1':'')}
-function caseReferences(c){
- const links=document.createElement('span');links.className='case-references';
- const guarantees=document.createElement('a');guarantees.className='case-ref';guarantees.href=caseSectionHref(c,'guarantees');guarantees.textContent='Garantías del caso: '+c.guarantees.map(g=>g.id).join(', ');links.append(guarantees);
- c.solutions.forEach(sol=>{const a=document.createElement('a');a.className='case-ref';a.href=caseSectionHref(c,'solution-'+sol.id);a.textContent='Ver '+sol.id;links.append(a)});return links;
-}
 const glossary=[
  ['WAL',/\bWAL\b/i,'Registro de escritura anticipada: conserva las operaciones antes de aplicarlas para permitir su recuperación tras una caída.'],
  ['Offset',/offset/i,'Posición de un consumidor dentro de un log. Guardarlo después de completar la operación permite retomar el procesamiento desde el punto confirmado.'],
@@ -655,8 +648,6 @@ const glossary=[
  ['Outbox',/outbox/i,'Registro de tareas pendientes guardado en la misma transacción que el cambio de negocio, para procesarlas y reintentarlas de forma durable.']
 ];
 function renderAcademicAids(c){
- const contents=el('caseContents');contents.replaceChildren();const label=document.createElement('span');label.textContent='En este caso';contents.append(label);
- [['problem','Problema'],['failures','Fallas'],['guarantees','Garantías'],['solutions','Soluciones'],['tradeoffs','Trade-offs']].forEach(([section,text])=>{const a=document.createElement('a');a.href=caseSectionHref(c,section);a.textContent=text;contents.append(a)});
  const terms=el('glossaryTerms');terms.replaceChildren();const text=c.solutions.map(s=>s.full).join(' ');
  glossary.filter(([,pattern])=>pattern.test(text)).forEach(([term,,definition])=>{const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=term;dd.textContent=definition;terms.append(dt,dd)});el('caseGlossary').hidden=!terms.children.length;
  const comparison=el('caseComparison');comparison.hidden=c.id!=='capacity';
@@ -666,9 +657,6 @@ function renderAcademicAids(c){
  }
 }
 let expandedDiagram=null;
-el('view-records').addEventListener('click',event=>{
- const link=event.target.closest('.case-contents a, .case-ref');if(link&&link.hash===location.hash&&event.button===0&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();jumpToCaseSection(new URLSearchParams(link.hash.split('?')[1]).get('section'))}
-});
 function openDiagram(button){
  const svg=el(button.dataset.expandDiagram),sequence=svg.id==='seqSvg',extras=sequence?[el('stepSelect').closest('.step-picker'),el('stepCaption')]:[el('dcScenarioText')];
  expandedDiagram={svg,parent:svg.parentElement,button,extras:extras.map(node=>({node,parent:node.parentElement,next:node.nextSibling}))};el('diagramDialogTitle').textContent=sequence?button.dataset.diagramTitle:el('dcScenarioTitle').textContent;el('expandedDiagram').append(svg);if(sequence)el('expandedOptions').append(extras[0]);el('expandedCaption').append(extras.at(-1));el('diagramDialog').showModal();el('closeDiagram').focus();

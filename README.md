@@ -18,7 +18,7 @@ Las secciones y selecciones se pueden compartir mediante su URL, incluso al abri
 
 ## Lectura académica
 
-La ficha del Enunciado identifica a Universidad Austral, la materia y los integrantes, sin comisión ni fecha. En Caso completo, el índice permite saltar a cada sección y las fallas enlazan con las garantías del caso y sus soluciones. Son referencias al caso completo; no afirman una correspondencia individual entre cada falla y cada garantía.
+La ficha del Enunciado identifica a Universidad Austral, la materia y los integrantes, sin comisión ni fecha. La navegación utiliza las pestañas del caso y los botones, sin un segundo índice ni enlaces repetidos debajo de las fallas.
 
 Los enlaces con `section` conservan el destino al recargar o volver atrás. Saturación incluye una comparación desplegable de S1/S2 sobre admisión, caída de un nodo y partición. Los rótulos Requisito, Propuesta y Límites y costos distinguen el enunciado de las decisiones de diseño. El glosario contextual explica únicamente los términos que aparecen en las soluciones del caso.
 

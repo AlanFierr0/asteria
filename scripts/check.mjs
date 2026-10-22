@@ -187,26 +187,18 @@ context.activeView = 'brief';
 context.writeRoute();
 assert.equal(written, '#deployment?mode=partition', 'Restoring a URL must not overwrite it');
 
-const aids = Object.fromEntries(['caseContents', 'glossaryTerms', 'caseGlossary', 'caseComparison', 'comparisonRows'].map(id => [id, element('div')]));
+assert.ok(!markup.includes('caseContents'), 'Case tabs replace the duplicate section index');
+assert.ok(!script.includes('caseReferences'), 'Failure views must not add repeated text links');
+const aids = Object.fromEntries(['glossaryTerms', 'caseGlossary', 'caseComparison', 'comparisonRows'].map(id => [id, element('div')]));
 const academicContext = vm.createContext({ document: { createElement: element }, el: id => aids[id] });
 vm.runInContext(script.slice(script.indexOf('const caseSectionIds='), script.indexOf('let expandedDiagram=')), academicContext);
 for (const item of cases) {
   academicContext.renderAcademicAids(item);
-  assert.equal(aids.caseContents.children.length, 6, 'Every complete case needs five section links');
-  for (const link of aids.caseContents.children.slice(1)) {
-    const route = context.parseRoute(link.href);
-    assert.equal(route.params.get('case'), item.id);
-    assert.ok(markup.includes(`id="case-${route.params.get('section')}"`));
-  }
   assert.equal(aids.caseComparison.hidden, item.id !== 'capacity');
-  const references = academicContext.caseReferences(item);
-  assert.equal(references.children.length, item.solutions.length + 1);
-  assert.ok(references.children[0].textContent.includes(item.guarantees[0].id));
   assert.equal(aids.caseGlossary.hidden, aids.glossaryTerms.children.length === 0);
 }
 academicContext.renderAcademicAids(cases.find(item => item.id === 'capacity'));
 assert.equal(aids.comparisonRows.children.length, 3);
-assert.equal(context.parseRoute(academicContext.caseSectionHref(cases[5], 'solution-S2')).params.get('solution'), '1');
 academicContext.renderAcademicAids(cases.find(item => item.id === 'payments'));
 assert.ok(aids.glossaryTerms.children.some(node => node.textContent === 'Outbox'));
 assert.doesNotThrow(() => academicContext.jumpToCaseSection('unknown'));
