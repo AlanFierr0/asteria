@@ -108,6 +108,50 @@ h1,h2,h3{ text-wrap:balance }
  .side,.tools,.skip-link,.diagram-toolbar,.diagram-hint,.record-actions,.quicklinks,.module-picker,.step-picker,.toast,
  .app{display:block}.top{padding:0 0 16px;min-height:0}.content{padding:20px 0;max-width:none}.panel{break-inside:avoid;box-shadow:none}.record-layout,.process-layout,.overview-grid,.infra-stack{display:block}.record-index,.case-list{display:none}.record-two,.details-grid{display:block}.record-two>.panel,.details-grid>.panel{margin-top:16px}.record-main,.case-main{display:block}.record-main>.panel,.case-main>.panel{margin-top:16px}.flowboard{overflow:visible;max-height:none;min-height:0}.flowboard svg{width:100%;height:auto;min-width:0}.diagram-wrap{aspect-ratio:2380/1130;break-inside:avoid}.dc-canvas{overflow:visible}.dc-svg{min-width:0}.clean-table{display:table;min-width:0}.clean-table thead{position:static;width:auto;height:auto;clip-path:none}.clean-table tbody{display:table-row-group;padding:0}.clean-table tr{display:table-row}.clean-table td{display:table-cell;border-top:1px solid var(--line);padding:10px;font-size:11px}.clean-table td:first-child{display:table-cell;font-size:11px}.clean-table td::before{display:none}.copyright{font-size:10px}.graph-dialog{display:none}
 }
+/* Review document: navy outline, one blue accent, type and spacing for a technical reading. */
+:root{--ink:#17283c;--muted:#3d5270;--subtle:#3d5270;--bg:#e7eef6;--paper:#fbfcfe;--line:#d3deea;--surface-soft:#f3f7fb;--blue:#2f5fbe;--focus:#1d4e9f}
+body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif}
+.side{background:#0e1a2b;border-right:1px solid #24344c}
+.brand{padding-bottom:4px;border-bottom:1px solid #24344c}
+.nav-group{margin-top:22px}
+.navbtn{border-radius:8px}
+.navbtn.active{background:#1c3d6e;border-color:#4d6fa3;box-shadow:inset 3px 0 #9ebfff}
+.mark{background:#2f5fbe;box-shadow:none}
+.top{position:sticky;top:0;z-index:4;background:var(--paper);border-bottom:1px solid var(--line)}
+.record-index,.case-list{top:108px;z-index:2}
+.top h1{font-size:22px;font-weight:720;letter-spacing:-.02em}
+.content{max-width:1180px;padding:28px 32px 48px}
+.intro p,.brief-hero p,.brief-card p,.brief-source p,.record-solution,.record-full,.dc-inspector p,.inspector p{max-width:68ch}
+.record-solution,.record-full,.brief-hero p,.brief-card p{font-size:16px;line-height:1.7}
+.panel{background:var(--paper);border-color:var(--line)}
+.brief-hero{border-top:3px solid #2f5fbe;background:var(--paper)}
+.brief-card{background:var(--surface-soft)}
+.btn.primary{background:#1f4fad;border-color:#1f4fad;color:#fff}
+.btn.primary:hover{background:#1a438f}
+.btn:active,.switchbtn:active,.navbtn:active{transform:translateY(1px)}
+.record-index{background:var(--paper)}
+.record-case.active,.casebtn.active{background:#e7f0ff;box-shadow:inset 3px 0 #2f5fbe}
+.record-p,.record-response{border-left:3px solid #2f5fbe}
+.failure-button.active{box-shadow:inset 3px 0 #2f5fbe}
+.sequence-caption{padding:16px 18px}
+.clean-table th{background:#e8f0f8;color:#31475f}
+.clean-table td{padding:15px 16px}
+.section-note,.copyright{max-width:68ch}
+@media(prefers-reduced-motion:reduce){.btn:active,.switchbtn:active,.navbtn:active{transform:none}}
+@media(prefers-color-scheme:dark){
+ :root{--ink:#e7eef8;--muted:#c5d2e4;--subtle:#c5d2e4;--bg:#0d1520;--paper:#172433;--line:#3a4c63;--surface-soft:#1e2d41;--control:#1e2d41;--control-ink:#e7eef8;--focus:#b9d0ff;--blue:#8fb4ff;--blueSoft:#243a5c}
+ .side{background:#0b121c;border-right-color:#243246}
+ .top{background:#121c2a}
+ .navbtn.active{background:#1c3d6e;color:#f3f7ff;border-color:#6e93c4;box-shadow:inset 3px 0 #b9d0ff}
+ .btn.primary,.switchbtn.active{background:#2f62c0;border-color:#8fb4ff;color:#fff}
+ .record-case.active,.casebtn.active,.failure-button.active{background:#243a5c;color:#f3f7ff;box-shadow:inset 3px 0 #8fb4ff}
+ .record-p,.record-response{border-left-color:#8fb4ff}
+ .brief-card,.record-response,.fault-result,.record-rule,.record-p,.aside-note,.compare>div,.pending{background:var(--surface-soft)}
+ .clean-table th{background:#1e2d41;color:#d5e2f2}
+ .panel{background:var(--paper)}
+}
+@media print{.top{position:static}}
+@media(max-width:900px){.top{position:static}.record-index,.case-list{top:16px}.content{padding:24px 16px 32px}}
 </style></head>
 <body><a class="skip-link" href="#mainContent">Saltar al contenido</a><div class="app">
   <aside class="side" aria-label="Navegación">
@@ -180,7 +224,7 @@ h1,h2,h3{ text-wrap:balance }
         <div class="infra-stack"><div class="panel dc-map"><div class="tabline"><span class="smallcaps">Topología lógica</span><div class="mode-switch" id="dcMode"><button class="switchbtn active" data-dcmode="normal">Instancia normal</button><button class="switchbtn" data-dcmode="global">Evento global</button><button class="switchbtn" data-dcmode="partition">Partición</button></div></div><div class="dc-canvas" role="region" aria-label="Topología de datacenters"><svg viewBox="0 0 920 430" class="dc-svg" id="dcSvg" role="img" aria-label="Datacenters Brasil, Estados Unidos y Zúrich"><defs><marker id="dcArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1L9 5L0 9Z" fill="#6990ca"></path></marker></defs><path d="M264 169 L330 169" stroke="#6389be" stroke-width="3" stroke-dasharray="none" fill="none"></path><path d="M558 169 L624 169" stroke="#6389be" stroke-width="3" fill="none"></path><path d="M150 248 C150 360 741 360 741 248" stroke="#9db4d6" stroke-width="2.4" stroke-dasharray="none" fill="none"></path><rect x="36" y="76" width="228" height="174" rx="16" fill="#ebf3ff" stroke="#5c8ed6" stroke-width="2"></rect><text x="150" y="114" text-anchor="middle" fill="#526c8a" font-size="14" letter-spacing="1.5" font-weight="850">BRASIL</text><rect x="54" y="132" width="192" height="35" rx="7" fill="#fff" stroke="#e0e8f3"></rect><text x="150" y="154" text-anchor="middle" fill="#2e547f" font-size="13" font-weight="650">Instancia local</text><rect x="54" y="176" width="192" height="54" rx="7" fill="#fff" stroke="#e0e8f3"></rect><text x="150" y="198" text-anchor="middle" fill="#546780" font-size="12">Datos personales + pagos</text><text x="150" y="216" text-anchor="middle" fill="#546780" font-size="12">permanecen aquí</text><rect x="330" y="76" width="228" height="174" rx="16" fill="#f6f9fe" stroke="#d4e0ef" stroke-width="2"></rect><text x="444" y="114" text-anchor="middle" fill="#526c8a" font-size="14" letter-spacing="1.5" font-weight="850">ESTADOS UNIDOS</text><rect x="348" y="132" width="192" height="35" rx="7" fill="#fff" stroke="#e0e8f3"></rect><text x="444" y="154" text-anchor="middle" fill="#2e547f" font-size="13" font-weight="650">Servicios locales</text><rect x="348" y="176" width="192" height="54" rx="7" fill="#fff" stroke="#e0e8f3"></rect><text x="444" y="198" text-anchor="middle" fill="#546780" font-size="12">Datos personales + pagos</text><text x="444" y="216" text-anchor="middle" fill="#546780" font-size="12">permanecen aquí</text><rect x="624" y="76" width="228" height="174" rx="16" fill="#f6f9fe" stroke="#d4e0ef" stroke-width="2"></rect><text x="738" y="114" text-anchor="middle" fill="#526c8a" font-size="14" letter-spacing="1.5" font-weight="850">ZÚRICH</text><rect x="642" y="132" width="192" height="35" rx="7" fill="#fff" stroke="#e0e8f3"></rect><text x="738" y="154" text-anchor="middle" fill="#2e547f" font-size="13" font-weight="650">Servicios locales</text><rect x="642" y="176" width="192" height="54" rx="7" fill="#fff" stroke="#e0e8f3"></rect><text x="738" y="198" text-anchor="middle" fill="#546780" font-size="12">Datos personales + pagos</text><text x="738" y="216" text-anchor="middle" fill="#546780" font-size="12">permanecen aquí</text><text x="461" y="42" text-anchor="middle" fill="#8296b1" font-size="15">gRPC entre datacenters · directorio replicado</text></svg></div></div><div class="panel dc-inspector"><div class="smallcaps">Escenario seleccionado</div><h3 id="dcScenarioTitle">Instancia normal</h3><p id="dcScenarioText">Una mazmorra se ejecuta en un datacenter. Por defecto nace en el hogar de quien la crea y puede ser reubicada si ese datacenter falla.</p><div id="dcScenarioFacts"><div class="minirow"><strong>Directorio · </strong>Cada centro consulta su réplica local.</div><div class="minirow"><strong>Pertenencia · </strong>El registro único sigue necesitando mayoría.</div><div class="minirow"><strong>Datos bancarios · </strong>No se trasladan con la instancia.</div></div></div></div>
         <div class="panel table-card" style="margin-top:15px"><div class="panel-head"><h3>Ubicación del estado</h3><small>Responsabilidades de persistencia</small></div><div class="table-wrap"><table class="clean-table"><thead><tr><th scope="col">Estado</th><th scope="col">Ubicación / política</th><th scope="col">Mecanismo</th></tr></thead><tbody id="storageRows"><tr><td>Datos personales y bancarios</td><td>Solo en el datacenter hogar.</td><td>Base local replicada entre nodos.</td></tr><tr><td>Pagos y Outbox</td><td>Datacenter hogar del jugador.</td><td>Pago y Outbox juntos; oro e identificador en una transacción; conciliación con el proveedor tras recuperación.</td></tr><tr><td>Pertenencia jugador-instancia</td><td>Estado coordinado en los tres datacenters.</td><td>WAL confirmado por mayoría 2/3; pertenencia exclusiva, sin replicar todos los datos del jugador.</td></tr><tr><td>Eventos de combate y mercado</td><td>Particionados por instancia o por ítem.</td><td>Consumidor único por partición; mayoría para confirmar; sincronización antes de reincorporar nodos.</td></tr><tr><td>Directorio de zonas</td><td>Una copia local por datacenter.</td><td>Actualización asíncrona desde logs.</td></tr><tr><td>Oro e inventario</td><td>Estado de juego; puede moverse entre datacenters.</td><td>Transacciones atómicas de ingreso y venta; identificadores únicos para evitar duplicaciones.</td></tr><tr><td>Cambios económicos (90 días)</td><td>Requerimiento de negocio, sin ubicación definida.</td><td>Auditoría aún no detallada.</td></tr></tbody></table></div></div>
       </section>
-      <div class="copyright">Asteria Online · TP final · Documento interactivo de diseño para revisión técnica.</div>
+      <div class="copyright">Asteria Online · TP final</div>
     </div>
   </main>
 </div>
