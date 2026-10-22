@@ -83,6 +83,7 @@ assert.ok(crossings.size <= 6, `Architecture has ${crossings.size} arrow crossin
 
 const routeSource = script.slice(script.indexOf('function parseRoute('), script.indexOf('function restoreRoute('));
 let written;
+const caseLinks = ['cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs'].map(view => ({ dataset: { view }, href: '' }));
 const context = vm.createContext({
   URLSearchParams,
   recordViews: ['cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs'],
@@ -97,6 +98,7 @@ const context = vm.createContext({
     replaceState: (_, __, hash) => { written = hash; },
     pushState: (_, __, hash) => { written = hash; },
   },
+  document: { querySelectorAll: () => caseLinks },
 });
 vm.runInContext(routeSource, context);
 assert.equal(context.parseRoute('#unknown?case=market').view, 'brief');
@@ -113,9 +115,15 @@ for (const view of context.recordViews) {
   assert.equal(context.parseRoute(written).view, view);
   assert.equal(context.parseRoute(written).params.get('case'), 'market');
 }
+for (const link of caseLinks) {
+  assert.equal(context.parseRoute(link.href).view, link.dataset.view);
+  assert.equal(context.parseRoute(link.href).params.get('case'), 'market', 'Native links must retain the case');
+  assert.equal(context.parseRoute(link.href).params.get('failure'), '2');
+}
 const nav = markup.match(/<nav class="nav-main"[\s\S]*?<\/nav>/)[0];
-assert.deepEqual([...nav.split('Diseño integrado')[0].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['brief']);
-assert.deepEqual([...nav.split('Diseño integrado')[1].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment']);
+assert.deepEqual([...nav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['brief', 'cases', 'architecture', 'deployment']);
+const caseNav = markup.match(/<nav class="case-views"[\s\S]*?<\/nav>/)[0];
+assert.deepEqual([...caseNav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), Array.from(context.recordViews));
 const sections = ['recordProblem', 'recordFailures', 'recordGuarantees', 'caseSolutions', 'caseTradeoffs'].map(id => markup.indexOf(`id="${id}"`));
 assert.ok(sections.every((position, i) => position >= 0 && (i === 0 || position > sections[i - 1])), 'Cases must follow document order');
 const element = tagName => ({ tagName, children: [], textContent: '', append(...items) { this.children.push(...items); }, replaceChildren(...items) { this.children = items; } });
@@ -132,9 +140,35 @@ for (const item of cases) {
     assert.equal(article.children[0].textContent, solution.id);
     assert.equal(article.children.slice(1).map(node => node.textContent).join('\n\n'), solution.full, 'Full solution text must remain unchanged');
     assert.ok(content(aggregate.caseTradeoffs.children[index]).includes(solution.tradeoff.cost));
+    assert.equal(aggregate.caseTradeoffs.children[index].children[1].children.length, 3, 'Complete cases must not repeat the guarantees inside each trade-off');
+    assert.equal([solution.lead, ...aggregateContext.solutionBody(solution)].join('\n\n'), solution.full, 'The lead plus development must preserve the full solution exactly once');
   });
 }
 assert.equal(aggregateContext.selectedSolution, 1, 'Reading all solutions must not change the selected variant');
+const individualTradeoff = element('div');
+aggregateContext.renderTradeoff(individualTradeoff, cases[0].solutions[0], cases[0]);
+assert.equal(individualTradeoff.children.length, 4, 'Standalone trade-offs still explain the protected guarantees');
+let renderCalls = 0, scrollCalls = 0;
+const selections = vm.createContext({
+  sourceById: Object.fromEntries(cases.map(item => [item.id, item])),
+  activeRecord: 'capacity', activeCase: 'capacity', selectedFailure: 1, selectedSolution: 1, activeStep: 2,
+  renderRecord: () => renderCalls++, writeRoute: push => assert.equal(push, true),
+  window: { scrollTo: options => { assert.equal(options.top, 0); scrollCalls++; } },
+});
+vm.runInContext(script.slice(script.indexOf('function selectRecord('), script.indexOf("el('caseSelect').replaceChildren")), selections);
+selections.selectRecord('capacity');
+selections.selectRecord('unknown');
+assert.equal(selections.selectedSolution, 1, 'Selecting the current case must retain S2');
+assert.equal(renderCalls, 0);
+assert.equal(scrollCalls, 0, 'Selecting the current case must preserve reading position');
+selections.selectRecord('entry');
+assert.equal(selections.activeRecord, 'entry');
+assert.equal(selections.activeCase, 'entry');
+assert.equal(selections.selectedFailure, 0);
+assert.equal(selections.selectedSolution, 0);
+assert.equal(selections.activeStep, -1);
+assert.equal(renderCalls, 1);
+assert.equal(scrollCalls, 1, 'A different case must open at the beginning');
 context.activeView = 'solutions';
 context.activeRecord = 'capacity';
 context.selectedFailure = 0;

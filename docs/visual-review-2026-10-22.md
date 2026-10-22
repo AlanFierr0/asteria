@@ -26,3 +26,21 @@ The complete-case renderer uses the same corrected source data as the individual
 Browser verification covered all nine navigation entries at a 390px viewport, all seven complete cases, both saturation variants, URL reload/Back, individual failure selection, fullscreen architecture Escape/restoration and diagram containment. No page or graph horizontal overflow was found. Light, print and reduced-motion fixtures exercised their CSS. Sampled light-mode text contrast exceeded 4.5:1; existing focus outlines and native keyboard controls are retained.
 
 Limits: viewport emulation and CSS fixtures are not physical-device or physical-printer tests. Small-screen diagrams remain overviews with module and step selectors for reading details; no new graph scrolling was introduced. No Lighthouse or field performance score is claimed.
+
+## Follow-up: whole-site navigation cleanup
+
+The follow-up audit started from `565dfc6` and covered Enunciado, all six case views, Arquitectura and Datacenters. The nine primary links mixed site sections with case-specific views; on phones the seven-item case grid pushed the content down. Generic introductions, repeated guarantees and repeated solution leads added reading without new information.
+
+- Four primary destinations: Enunciado, Casos, Arquitectura and Datacenters. The six case views now form a sticky contextual navigation under the selected case title. Existing hashes remain supported.
+- A labeled native case selector replaces the long mobile case grid. Desktop retains its case index. The primary Casos link stays selected across its six views.
+- Removed repeated introductory headings, counts, hints and the case-to-architecture shortcut. Technical content remains in its relevant section.
+- Complete cases use simple section separators and show guarantees once. Individual Trade-off retains its guarantee summary. Expanding a solution adds its development without repeating its opening paragraph.
+- Datacenter scenarios show their explanation above the chart; the secondary storage table is a native disclosure, collapsed initially.
+- Native links retain the case, failure, variant and applicable process step when opened separately. Case changes add browser history and return to the beginning; choosing the current case preserves its variant and reading position.
+- Fixed navigation selection/listeners to target anchors only, so the record section itself no longer acquires link state.
+
+Follow-up verification: all 42 combinations of seven cases and six views passed in a 390px browser viewport without page overflow. All seven desktop case-index choices, both saturation variants, development expansion, process selection, Back/reload, architecture module selection/fullscreen Escape restoration, and all three datacenter scenarios were checked. The diagrams fit their containers without internal scrollbars, the module selector remains below its chart, and all seven storage rows remain available. A long-page case switch was reproduced and verified to return to the top after the fix.
+
+Light-mode samples for case text and navigation ranged from 5.31:1 to 13.26:1; keyboard navigation retained its 3px focus outline. Print and reduced-motion CSS fixtures hid navigation and disabled transitions respectively. Automated checks cover unchanged full solution text, the absence of duplicate guarantee groups, native route state and the case-change guard/history behavior. The corrected seven-case source data was compared against the pre-cleanup snapshot and remained identical.
+
+These checks use browser viewport emulation and CSS fixtures; they do not claim physical-device, printer, screen-reader or Lighthouse certification.

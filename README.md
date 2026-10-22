@@ -8,11 +8,13 @@ Sitio publicado: https://asteria.alanfierro.dev
 
 Abrir `index.html` en un navegador. El documento incluye estilos, scripts y el PDF del enunciado; no requiere instalación ni dependencias.
 
-Trabajo práctico: Enunciado.
+La navegación principal tiene cuatro accesos: Enunciado, Casos, Arquitectura y Datacenters.
 
-Diseño integrado: Casos, Problema, Falla, Garantía, Solución, Trade-off, Arquitectura y Datacenters. Casos muestra Problema, Fallas, Garantías, todas las Soluciones (incluidas S1/S2) y sus Trade-offs en el orden del documento. Las seis pestañas de contenido conservan el caso seleccionado. Solución incluye el diagrama de interacción y las variantes S1/S2; Trade-off explica qué puede seguir haciendo el sistema ante fallas, qué queda limitado, qué garantías mantiene y qué costo acepta para cada variante. Los enlaces anteriores a Procesos y fallas abren Solución.
+Dentro de Casos, un índice lateral en escritorio y un selector compacto en móvil permiten elegir el caso. Las pestañas Caso completo, Problema, Falla, Garantía, Solución y Trade-off conservan esa elección. Caso completo muestra Problema, Fallas, Garantías, todas las Soluciones (incluidas S1/S2) y sus Trade-offs en el orden del documento, sin repetir las garantías en cada variante. Solución incluye el desarrollo y el diagrama de interacción; Trade-off explica capacidades, límites, garantías y costos. Los enlaces anteriores a Procesos y fallas abren Solución.
 
-Las secciones y selecciones se pueden compartir mediante su URL. El diseño se adapta a pantallas pequeñas y a la preferencia de apariencia del sistema.
+En Datacenters, los controles y la explicación del escenario preceden al gráfico. La tabla Ubicación del estado se puede desplegar cuando se necesita.
+
+Las secciones y selecciones se pueden compartir mediante su URL, incluso al abrir enlaces en otra pestaña. Atrás recupera el caso anterior y cambiar de caso vuelve al comienzo de la lectura. El diseño se adapta a pantallas pequeñas y a la preferencia de apariencia del sistema.
 
 ## Verificación
 
