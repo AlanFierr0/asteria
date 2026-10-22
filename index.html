@@ -105,53 +105,118 @@ h1,h2,h3{ text-wrap:balance }
 }
 @media print{
  :root{color-scheme:light;--ink:#172a40;--paper:#fff;--bg:#fff;--subtle:#40536a;--line:#c7d1df;--surface-soft:#f4f6f9}
- .side,.tools,.skip-link,.diagram-toolbar,.diagram-hint,.record-actions,.quicklinks,.module-picker,.step-picker,.toast,
+ .side,.tools,.skip-link,.diagram-toolbar,.diagram-hint,.record-actions,.quicklinks,.module-picker,.step-picker,.toast{display:none!important}
  .app{display:block}.top{padding:0 0 16px;min-height:0}.content{padding:20px 0;max-width:none}.panel{break-inside:avoid;box-shadow:none}.record-layout,.process-layout,.overview-grid,.infra-stack{display:block}.record-index,.case-list{display:none}.record-two,.details-grid{display:block}.record-two>.panel,.details-grid>.panel{margin-top:16px}.record-main,.case-main{display:block}.record-main>.panel,.case-main>.panel{margin-top:16px}.flowboard{overflow:visible;max-height:none;min-height:0}.flowboard svg{width:100%;height:auto;min-width:0}.diagram-wrap{aspect-ratio:2380/1130;break-inside:avoid}.dc-canvas{overflow:visible}.dc-svg{min-width:0}.clean-table{display:table;min-width:0}.clean-table thead{position:static;width:auto;height:auto;clip-path:none}.clean-table tbody{display:table-row-group;padding:0}.clean-table tr{display:table-row}.clean-table td{display:table-cell;border-top:1px solid var(--line);padding:10px;font-size:11px}.clean-table td:first-child{display:table-cell;font-size:11px}.clean-table td::before{display:none}.copyright{font-size:10px}.graph-dialog{display:none}
 }
-/* Review document: navy outline, one blue accent, type and spacing for a technical reading. */
-:root{--ink:#17283c;--muted:#3d5270;--subtle:#3d5270;--bg:#e7eef6;--paper:#fbfcfe;--line:#d3deea;--surface-soft:#f3f7fb;--blue:#2f5fbe;--focus:#1d4e9f}
-body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif}
-.side{background:#0e1a2b;border-right:1px solid #24344c}
-.brand{padding-bottom:4px;border-bottom:1px solid #24344c}
-.nav-group{margin-top:22px}
-.navbtn{border-radius:8px}
-.navbtn.active{background:#1c3d6e;border-color:#4d6fa3;box-shadow:inset 3px 0 #9ebfff}
-.mark{background:#2f5fbe;box-shadow:none}
-.top{position:sticky;top:0;z-index:4;background:var(--paper);border-bottom:1px solid var(--line)}
-.record-index,.case-list{top:108px;z-index:2}
-.top h1{font-size:22px;font-weight:720;letter-spacing:-.02em}
-.content{max-width:1180px;padding:28px 32px 48px}
-.intro p,.brief-hero p,.brief-card p,.brief-source p,.record-solution,.record-full,.dc-inspector p,.inspector p{max-width:68ch}
-.record-solution,.record-full,.brief-hero p,.brief-card p{font-size:16px;line-height:1.7}
-.panel{background:var(--paper);border-color:var(--line)}
-.brief-hero{border-top:3px solid #2f5fbe;background:var(--paper)}
-.brief-card{background:var(--surface-soft)}
-.btn.primary{background:#1f4fad;border-color:#1f4fad;color:#fff}
-.btn.primary:hover{background:#1a438f}
-.btn:active,.switchbtn:active,.navbtn:active{transform:translateY(1px)}
-.record-index{background:var(--paper)}
-.record-case.active,.casebtn.active{background:#e7f0ff;box-shadow:inset 3px 0 #2f5fbe}
-.record-p,.record-response{border-left:3px solid #2f5fbe}
-.failure-button.active{box-shadow:inset 3px 0 #2f5fbe}
-.sequence-caption{padding:16px 18px}
-.clean-table th{background:#e8f0f8;color:#31475f}
-.clean-table td{padding:15px 16px}
-.section-note,.copyright{max-width:68ch}
-@media(prefers-reduced-motion:reduce){.btn:active,.switchbtn:active,.navbtn:active{transform:none}}
+/* Asteria reading layout: native CSS, existing blue identity, restrained interaction. */
+:root{--ink:#172b43;--muted:#526277;--subtle:#526277;--bg:#f4f6f9;--paper:#fff;--line:#dce3ed;--surface-soft:#f1f5fa;--control:#fff;--control-ink:#243e5d;--blue:#2d5fba;--blueSoft:#eaf0fc;--focus:#285bb1;--radius:12px}
+body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.app{grid-template-columns:220px minmax(0,1fr)}
+.side{background:#101b2c;border-right:1px solid #253248;padding:28px 14px;scrollbar-width:thin}
+.brand{margin:0 10px 20px;padding:0;border:0}.brand strong{font-size:16px;letter-spacing:.06em}.brand small{color:#a5b5cd;font-size:9px;white-space:nowrap;letter-spacing:.025em}
+.mark{background:#3264bd;box-shadow:none;border-radius:10px}
+.nav-main{gap:3px}.nav-group{margin:17px 0 5px;color:#98aac4;letter-spacing:.12em}
+.navbtn{min-height:42px;padding:10px 12px;border-radius:8px;color:#c5d0e2;font-weight:500;font-size:14px}
+.navbtn:hover{background:#1c2d45;color:#fff}.navbtn.active{background:#233d64;border-color:#38547b;box-shadow:inset 3px 0 #a9c4f4;color:#fff;font-weight:650}
+.sidebar-foot{margin:24px 10px 0;padding-top:18px;font-size:11px;line-height:1.7;color:#a5b5cd}
+.top{position:static;min-height:0;height:auto;padding:26px 40px 14px;background:transparent;border:0}
+.top h1{font-size:30px;line-height:1.2;letter-spacing:-.04em;font-weight:720;margin:4px 0 0}.eyebrow{font-size:10px;letter-spacing:.1em;color:var(--subtle)}
+.content{max-width:1440px;padding:0 40px 56px}
+.intro{margin-bottom:30px}.intro h2{font-size:27px;letter-spacing:-.035em}.intro p{font-size:15px;line-height:1.65;max-width:75ch;color:var(--muted)}
+#view-records .intro h2{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.intro>.chip{margin-top:14px;border:0;background:transparent;padding:0;color:var(--muted);font-size:12px}
+.panel{box-shadow:none;border-color:var(--line);background:var(--paper);border-radius:var(--radius)}
+.btn,.switchbtn,.neighbor{font-weight:600;transition:background .15s,border-color .15s,color .15s}
+.btn{background:var(--control);color:var(--control-ink);border-color:var(--line)}.btn:hover,.neighbor:hover{background:var(--surface-soft);border-color:var(--blue)}
+.btn.primary,.switchbtn.active{background:#2d5fba;border-color:#2d5fba;color:#fff}.btn.primary:hover{background:#254e99}
+.switchbtn{background:var(--control);color:var(--control-ink);border-color:var(--line);min-width:46px}
+.record-layout{grid-template-columns:198px minmax(0,1fr);gap:32px}
+.record-index{position:sticky;top:24px;padding:4px 0;border:0;background:transparent;z-index:2}
+.record-index>.smallcaps{display:block;margin:0 12px 12px;font-size:11px;font-weight:600}
+.record-index #recordList{display:grid;grid-template-columns:1fr;gap:4px;overflow:visible}
+.record-case{background:transparent!important;color:var(--muted);font-size:14px;line-height:1.45;min-height:48px;padding:12px 10px;gap:10px;min-width:0;width:100%;border:0;box-shadow:none;font-weight:500;transition:background .15s,color .15s}
+.record-case:hover{background:var(--surface-soft)!important;color:var(--ink)}
+.record-case.active{background:var(--blueSoft)!important;color:var(--blue);box-shadow:inset 3px 0 var(--blue);font-weight:650}
+.record-case .record-number{border:0;background:transparent!important;padding:0;font:11px ui-monospace,"Cascadia Code",Consolas,monospace;color:inherit;opacity:1;flex:0 0 20px}
+.record-main{gap:22px}
+.record-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;padding:0 0 24px;background:transparent!important;border:0;border-bottom:1px solid var(--line);border-radius:0}
+.record-hero .case-title-row{grid-column:1/-1;gap:14px;justify-content:flex-start}
+.record-hero h3{grid-column:1;grid-row:2;margin:14px 0 0;font-size:34px;font-weight:700;line-height:1.15;letter-spacing:-.045em}
+.record-hero .record-actions{grid-column:2;grid-row:2;margin:10px 0 0 18px}
+.record-actions .btn{background:transparent;border-color:transparent;color:var(--blue);padding:8px 0;min-height:44px;font-size:12px}
+.record-actions .btn:hover{text-decoration:underline;text-underline-offset:4px}
+.record-hero .record-p{grid-column:1/-1;margin-top:24px;padding:0 0 0 18px;border:0;border-left:3px solid var(--blue);border-radius:0;background:transparent}
+.record-p p{font-size:19px;line-height:1.65;max-width:68ch;margin:9px 0 0;font-weight:500;color:var(--ink)}
+#recordVariants{grid-column:1/-1;margin-top:18px;gap:6px}#recordVariants:empty{display:none}
+.chip{font-size:11px;font-weight:600;padding:5px 9px;border-radius:6px}
+.record-cell{padding:26px 28px}.record-subhead{margin-bottom:20px}.record-subhead h3{font-size:15px;letter-spacing:-.01em}.record-subhead span{font-size:12px}
+.failure-list{gap:10px}.failure-button{background:transparent;color:var(--ink);border-color:var(--line);padding:17px 18px;font-size:15px;line-height:1.65;border-radius:8px}
+.failure-button:hover{background:var(--surface-soft)}.failure-button.active{background:var(--blueSoft);border-color:var(--blue);box-shadow:inset 3px 0 var(--blue);color:var(--ink)}
+.failure-code{flex-basis:28px;padding:3px;border:0;background:var(--surface-soft);color:var(--blue);font-size:12px;line-height:1.7}.failure-kind{font-size:11px;font-weight:600;letter-spacing:.03em;margin-bottom:5px;color:var(--muted)}
+.record-response{margin-top:22px;padding:18px 20px;border:0;border-left:3px solid var(--blue);background:var(--surface-soft);border-radius:0 8px 8px 0;font-size:15px;line-height:1.75}
+.record-response strong{font-size:14px;margin-bottom:8px}.record-response em{margin-top:12px;font-size:14px}
+.guarantee-item{font-size:17px;line-height:1.75;color:var(--ink);padding:20px 0;gap:16px;border-color:var(--line)}
+.guarantee-item:first-child{padding-top:0}.guarantee-item b{flex:0 0 32px;text-align:center;padding:5px 6px;font-size:12px;background:var(--blueSoft);color:var(--blue);border-radius:6px}
+.record-solution{font-size:18px;line-height:1.75;font-weight:550;max-width:70ch;color:var(--ink)}
+.record-full,.case-solution{font-size:16px;line-height:1.85;color:var(--muted);max-width:74ch}
+.record-full p,.case-solution p{margin:0 0 18px}.record-full{padding-top:20px}
+#recordOriginal{margin-top:22px;padding-top:18px;border-color:var(--line)}#recordOriginal summary{font-size:14px;color:var(--blue);min-height:44px;align-content:center}
+.tradeoff-grid,#recordTradeoff{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.tradeoff-grid>.minirow,#recordTradeoff>.minirow{border:0;padding:20px;background:var(--surface-soft);border-radius:8px;min-width:0}
+.tradeoff-grid h5,#recordTradeoff h4{font-size:13px;line-height:1.5;margin:0 0 16px;color:var(--ink);font-weight:700}
+.tight-list li{font-size:15px;line-height:1.8;color:var(--muted);padding-left:15px;padding-bottom:14px}.tight-list li::before{top:11px;width:4px;height:4px;background:var(--blue)}
+.case-solution+.case-solution,.case-tradeoff+.case-tradeoff{margin-top:32px;padding-top:28px;border-top:1px solid var(--line)}
+.case-solution h4,.case-tradeoff>h4{margin:0 0 16px;font-size:15px;color:var(--blue)}
+#view-records[data-view=cases] .record-two{display:contents}
+#view-records[data-view=cases] #recordResponse{display:none}
+#view-records[data-view=cases] .failure-button{background:transparent;box-shadow:none;border-color:var(--line)}
+.panel-head{padding:20px 24px;gap:14px}.panel-head h3{font-size:15px}
+.step-picker,.module-picker{padding:16px 24px;gap:18px;background:var(--surface-soft)}
+.step-picker select,.module-picker select{padding:10px 38px 10px 14px;min-height:46px;border-color:var(--line)}
+.sequence-caption{padding:20px 24px;line-height:1.8;font-size:15px;border-top:1px solid var(--line)}
+.flowboard{padding:12px 0;background:#fff}.diagram-wrap{background:#fff}.diagram-legend{gap:14px}.diagram-toolbar{box-shadow:0 2px 8px #15283d12}
+.inspector{padding:28px;gap:12px 32px}.inspector h3{font-size:26px;letter-spacing:-.035em}.inspector p,.fact{font-size:15px;line-height:1.8}
+.inspector .aside-note{padding:16px;font-size:13px}
+.infra-stack{grid-template-columns:minmax(0,1fr);gap:22px}.dc-map{padding:24px}.dc-canvas{margin-top:14px}.dc-svg{max-width:1000px;margin-inline:auto}
+.dc-inspector{padding:28px}.dc-inspector h3{font-size:26px;letter-spacing:-.035em}.dc-inspector p{font-size:16px;line-height:1.8;max-width:75ch}
+#dcScenarioFacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px}.minirow{font-size:15px;line-height:1.8;padding:16px 0;border-color:var(--line)}
+.clean-table th{background:var(--surface-soft);color:var(--muted);font-size:11px}.clean-table td{padding:18px;font-size:14px}
+.brief-layout{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.brief-hero{grid-column:1/-1;grid-row:auto;border:0;background:transparent!important;padding:12px 0 30px;max-width:100%}
+.brief-hero h3{font-size:42px;letter-spacing:-.045em;line-height:1.12;max-width:25ch;margin:14px 0 20px}.brief-hero p{max-width:74ch;font-size:17px;line-height:1.8}
+.quicklinks{margin-top:24px}.brief-card{padding:24px;background:var(--paper)}.brief-card h3{font-size:18px;margin:12px 0}.brief-card p,.brief-source p{font-size:15px;line-height:1.8}
+.brief-source{padding:24px;margin-top:22px;background:var(--surface-soft)}.section-note{font-size:12px;margin-top:8px;color:var(--muted)}.copyright{font-size:11px;padding-top:36px;color:var(--muted)}
 @media(prefers-color-scheme:dark){
- :root{--ink:#e7eef8;--muted:#c5d2e4;--subtle:#c5d2e4;--bg:#0d1520;--paper:#172433;--line:#3a4c63;--surface-soft:#1e2d41;--control:#1e2d41;--control-ink:#e7eef8;--focus:#b9d0ff;--blue:#8fb4ff;--blueSoft:#243a5c}
- .side{background:#0b121c;border-right-color:#243246}
- .top{background:#121c2a}
- .navbtn.active{background:#1c3d6e;color:#f3f7ff;border-color:#6e93c4;box-shadow:inset 3px 0 #b9d0ff}
- .btn.primary,.switchbtn.active{background:#2f62c0;border-color:#8fb4ff;color:#fff}
- .record-case.active,.casebtn.active,.failure-button.active{background:#243a5c;color:#f3f7ff;box-shadow:inset 3px 0 #8fb4ff}
- .record-p,.record-response{border-left-color:#8fb4ff}
- .brief-card,.record-response,.fault-result,.record-rule,.record-p,.aside-note,.compare>div,.pending{background:var(--surface-soft)}
- .clean-table th{background:#1e2d41;color:#d5e2f2}
- .panel{background:var(--paper)}
+ :root{color-scheme:dark;--ink:#e4ebf5;--muted:#b3c0d2;--subtle:#aabbd1;--bg:#111923;--paper:#192431;--line:#334255;--surface-soft:#202e3e;--control:#202e3e;--control-ink:#e4ebf5;--blue:#a0bfff;--blueSoft:#243c5b;--focus:#b0cbff}
+ .side{background:#0d1520;border-color:#263347}.top{background:transparent}.navbtn.active{background:#233d64;border-color:#49648b}
+ .btn.primary,.switchbtn.active{background:#315fae;border-color:#6f94cf;color:#fff}.btn.primary:hover{background:#376abe}
+ .record-p,.record-response{border-left-color:var(--blue)}.failure-button{background:transparent}.failure-button:hover{background:var(--surface-soft)}
+ .failure-code,.guarantee-item b{background:var(--blueSoft);color:var(--blue)}
+ .record-response em{color:#e8c28d}.record-full,.case-solution{color:var(--muted)}.sequence-caption strong{color:#bad1ff}
 }
-@media print{.top{position:static}}
-@media(max-width:900px){.top{position:static}.record-index,.case-list{top:16px}.content{padding:24px 16px 32px}}
+@media(min-width:901px) and (max-width:1180px){.app{grid-template-columns:196px minmax(0,1fr)}.top{padding-inline:28px}.content{padding-inline:28px}.record-layout{grid-template-columns:166px minmax(0,1fr);gap:24px}.tradeoff-grid,#recordTradeoff{grid-template-columns:1fr}.record-hero h3{font-size:30px}.record-hero .record-actions{grid-row:3;grid-column:1;margin:10px 0 0}}
+@media(max-width:900px){
+ .app{display:block}.side{padding:18px 20px;height:auto}.brand{margin:0}.brand small{font-size:10px}.nav-toggle{right:20px;top:18px;border-color:#49648b}.side .nav-main.is-open{padding-top:16px;gap:5px}.navbtn{min-height:44px}.nav-group{margin-top:10px}
+ .top{padding:26px 24px 12px}.content{padding:0 24px 40px}.record-layout{grid-template-columns:minmax(0,1fr);gap:26px}.record-index{position:static;padding:0}
+ .record-index>.smallcaps{margin-left:0}.record-index #recordList{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;overflow:visible}
+ .record-case{padding:10px;min-width:0;flex:auto;border:1px solid var(--line);font-size:13px;min-height:48px;align-items:center}.record-case .record-number{flex-basis:16px}.record-main{gap:20px}
+ .brief-layout{grid-template-columns:1fr}.brief-hero{grid-row:auto;grid-column:auto}.brief-card{padding:22px}.brief-hero h3{font-size:38px}
+}
+@media(max-width:680px){
+ .top{padding:24px 20px 12px}.top h1{font-size:28px}.content{padding:0 20px 36px}.intro{margin-bottom:24px}.intro p{font-size:14px}.intro>.chip{font-size:11px;margin-top:12px}
+ .record-index #recordList{grid-template-columns:repeat(2,minmax(0,1fr))}.record-case{font-size:12px;line-height:1.45;gap:7px;min-height:48px;padding:10px 8px}
+ .record-hero{grid-template-columns:1fr;padding-bottom:20px}.record-hero h3{font-size:31px;line-height:1.2;grid-column:1;margin-top:12px}
+ .record-hero .record-actions{grid-column:1;grid-row:3;margin:6px 0 0}.record-hero .record-p{padding-left:14px;margin-top:20px}.record-p p{font-size:18px}
+ .record-cell{padding:22px 18px}.record-subhead{margin-bottom:18px}.record-solution{font-size:17px;line-height:1.75}.record-full,.case-solution{font-size:15px;line-height:1.85}
+ .failure-button{padding:14px 12px;font-size:14px;gap:9px}.guarantee-item{font-size:16px;gap:12px}.record-response{padding:16px;font-size:14px}
+ .tradeoff-grid,#recordTradeoff{grid-template-columns:1fr;gap:14px}.tradeoff-grid>.minirow,#recordTradeoff>.minirow{padding:18px 16px}.tight-list li{font-size:14px}
+ .case-title-row{flex-wrap:wrap}.panel-head{padding:18px 16px}.panel-head .case-actions{width:100%}.step-head{flex-wrap:wrap}.step-counter{font-size:11px}
+ .step-picker,.module-picker{padding:16px}.module-picker{display:block}.step-picker{display:block}.step-picker label{display:block;margin-bottom:8px}.step-picker select{width:100%;min-width:0;font-size:13px}.sequence-caption{padding:16px;font-size:14px;min-height:0}
+ .inspector{padding:22px 18px}.inspector h3{font-size:24px}.inspector p,.fact{font-size:14px}.diagram-toolbar button{padding-inline:7px}.diagram-wrap{aspect-ratio:1.15}
+ .dc-map,.dc-inspector{padding:18px}.dc-map .tabline{gap:14px}.dc-inspector h3{font-size:24px}#dcScenarioFacts{grid-template-columns:1fr}.dc-inspector p{font-size:15px}
+ .brief-hero{padding:4px 0 24px}.brief-hero h3{font-size:34px}.brief-hero p{font-size:16px}.brief-source{padding:22px}.quicklinks{display:grid}.quicklinks .btn{text-align:center}.clean-table td{padding:7px 0}.clean-table td:first-child{padding-bottom:12px}
+}
+@media(prefers-reduced-motion:reduce){.btn,.switchbtn,.neighbor,.record-case{transition:none}.btn:active,.switchbtn:active,.navbtn:active{transform:none}}
+@media print{:root{color-scheme:light;--ink:#172b43;--muted:#526277;--subtle:#526277;--bg:#fff;--paper:#fff;--line:#ccd7e4;--surface-soft:#f2f5f9;--blue:#285bb1;--blueSoft:#eaf0fc;--control:#fff;--control-ink:#243e5d}.top{padding:0 0 14px}.content{padding:0}.record-hero{display:block}.record-index{display:none}.record-cell{padding:18px}.record-main{display:block}.record-main>.panel,.record-main .record-two>.panel{margin-top:18px}.tradeoff-grid,#recordTradeoff{display:block}.tradeoff-grid>.minirow,#recordTradeoff>.minirow{margin-bottom:12px}.case-solution{max-width:none}.brief-layout{display:block}.side{display:none!important}}
 </style></head>
 <body><a class="skip-link" href="#mainContent">Saltar al contenido</a><div class="app">
   <aside class="side" aria-label="Navegación">
@@ -161,6 +226,7 @@ body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif}
       <div class="nav-group">Trabajo práctico</div>
       <a class="navbtn active" data-view="brief" href="#brief"><span class="navicon" aria-hidden="true">◧</span><span>Enunciado</span></a>
       <div class="nav-group">Diseño integrado</div>
+      <a class="navbtn" data-view="cases" href="#cases"><span>Casos</span></a>
       <a class="navbtn" data-view="problems" href="#problems"><span>Problema</span></a>
       <a class="navbtn" data-view="failures" href="#failures"><span>Falla</span></a>
       <a class="navbtn" data-view="guarantees" href="#guarantees"><span>Garantía</span></a>
@@ -183,7 +249,7 @@ body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif}
           <div class="panel brief-hero">
             <div class="smallcaps">01 · Contexto</div><h3>MMO medieval, persistente y distribuido</h3>
             <p>Jugadores entran a instancias pagando oro, combaten contra un jefe y reciben las recompensas que correspondan por victoria o derrota. Los ítems pueden venderse en un mercado global; el oro también se compra con dinero real.</p>
-            <div class="quicklinks"><button class="btn primary" id="briefStart">Explorar los 7 problemas →</button><button class="btn" id="briefArchitecture">Ver arquitectura</button></div>
+            <div class="quicklinks"><button class="btn primary" id="briefStart">Explorar los 7 casos →</button><button class="btn" id="briefArchitecture">Ver arquitectura</button></div>
           </div>
           <div class="panel brief-card"><div class="smallcaps">02 · Infraestructura</div><h3>3 datacenters</h3><p>Brasil, Estados Unidos y Zúrich. El cliente y los centros se comunican por gRPC. Un combate global tiene una instancia lógica con líder y réplicas; los nodos recuperados se sincronizan antes de reincorporarse.</p></div>
           <div class="panel brief-card"><div class="smallcaps">03 · Datos y negocio</div><h3>Estado y restricciones</h3><p>Datos personales y bancarios: solo en el datacenter hogar. Cambios de oro y objetos: conservar 90 días. Durante saturación se priorizan sesiones existentes.</p></div>
@@ -196,15 +262,17 @@ body{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif}
         <div class="record-layout">
           <aside class="panel record-index" aria-label="Casos"><span class="smallcaps">Casos</span><div id="recordList"></div></aside>
           <div class="record-main">
-            <div class="panel record-hero"><div class="case-title-row"><span class="smallcaps" id="recordNum"></span><span id="recordCap" class="chip"></span></div><h3 id="recordTitle"></h3><div class="record-p" data-record-panels="problems"><span class="smallcaps">P · Problema</span><p id="recordProblem"></p></div><div class="mode-switch" id="recordVariants" data-record-panels="solutions tradeoffs" aria-label="Variante de solución"></div><div class="record-actions"><button class="btn" id="recordGoArchitecture">Ubicar módulos</button></div></div>
-            <div class="record-two" data-record-panels="failures guarantees">
-              <div class="panel record-cell" data-record-panels="failures"><div class="record-subhead"><h3>F · Fallas</h3><span id="failureCounter"></span></div><div id="recordFailures" class="failure-list"></div><div class="record-response" id="recordResponse" aria-live="polite"></div></div>
-              <div class="panel record-cell" data-record-panels="guarantees"><div class="record-subhead"><h3>G · Garantías</h3></div><div id="recordGuarantees"></div><p class="record-small">Interés de negocio protegido, sin describir el mecanismo técnico.</p></div>
+            <div class="panel record-hero"><div class="case-title-row"><span class="smallcaps" id="recordNum"></span><span id="recordCap" class="chip"></span></div><h3 id="recordTitle"></h3><div class="record-p" data-record-panels="problems cases"><span class="smallcaps">P · Problema</span><p id="recordProblem"></p></div><div class="mode-switch" id="recordVariants" data-record-panels="solutions tradeoffs" aria-label="Variante de solución"></div><div class="record-actions"><button class="btn" id="recordGoArchitecture">Ubicar módulos</button></div></div>
+            <div class="record-two" data-record-panels="failures guarantees cases">
+              <div class="panel record-cell" data-record-panels="failures cases"><div class="record-subhead"><h3>F · Fallas</h3><span id="failureCounter"></span></div><div id="recordFailures" class="failure-list"></div><div class="record-response" id="recordResponse" aria-live="polite"></div></div>
+              <div class="panel record-cell" data-record-panels="guarantees cases"><div class="record-subhead"><h3>G · Garantías</h3></div><div id="recordGuarantees"></div><p class="record-small">Interés de negocio protegido, sin describir el mecanismo técnico.</p></div>
             </div>
             <div class="panel record-cell" data-record-panels="solutions"><div class="record-subhead"><h3>S · Solución</h3></div><p class="record-solution" id="recordSolution"></p><details id="recordOriginal"><summary>Leer descripción completa</summary><div class="record-full" id="recordSolutionFull"></div></details></div>
+            <section class="panel record-cell" data-record-panels="cases"><div class="record-subhead"><h3>S · Soluciones</h3></div><div id="caseSolutions"></div></section>
+            <section class="panel record-cell" data-record-panels="cases"><div class="record-subhead"><h3>Trade-offs</h3></div><div id="caseTradeoffs"></div></section>
             <div class="panel record-cell" data-record-panels="tradeoffs"><div class="record-subhead"><h3>Trade-off</h3></div><div id="recordTradeoff"></div></div>
             <div class="panel" data-record-panels="solutions"><div class="panel-head"><div class="step-head"><h3>Interacción de módulos</h3><span class="step-counter" id="stepCounter">6 pasos</span></div><div class="case-actions"><button class="btn" id="prevStep" disabled="">Anterior</button><button class="btn" id="nextStep">Siguiente</button><button class="btn" id="showAll">Ver todo</button></div></div><div class="step-picker"><label for="stepSelect">Paso del proceso</label><select id="stepSelect"></select></div><div class="flowboard" id="flowBoard" role="region" aria-label="Diagrama de secuencia"><svg id="seqSvg" role="group" aria-label="Secuencia de interacción" viewBox="0 0 1120 635" width="1120" height="635"><defs><marker id="seqArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9Z" fill="#738cae"></path></marker></defs><rect x="34" y="21" width="152" height="65" rx="11" fill="#192a42" stroke="#192a42" stroke-width="1.5"></rect><text x="110" y="59" fill="#ffffff" font-size="14.3" font-weight="780" text-anchor="middle">Cliente móvil</text><line x1="110" y1="87" x2="110" y2="612" stroke="#d3ddeb" stroke-width="1.5" stroke-dasharray="7 7"></line><rect x="214" y="21" width="152" height="65" rx="11" fill="#e7f6ee" stroke="#87c9a7" stroke-width="1.5"></rect><text x="290" y="59" fill="#23694e" font-size="14.3" font-weight="780" text-anchor="middle">Instancias</text><line x1="290" y1="87" x2="290" y2="612" stroke="#d3ddeb" stroke-width="1.5" stroke-dasharray="7 7"></line><rect x="394" y="21" width="152" height="65" rx="11" fill="#f0ebff" stroke="#b7a6dc" stroke-width="1.5"></rect><text x="470" y="59" fill="#674da5" font-size="14.3" font-weight="780" text-anchor="middle">Logs replicados</text><line x1="470" y1="87" x2="470" y2="612" stroke="#d3ddeb" stroke-width="1.5" stroke-dasharray="7 7"></line><rect x="574" y="21" width="152" height="65" rx="11" fill="#e7f6ee" stroke="#87c9a7" stroke-width="1.5"></rect><text x="650" y="59" fill="#23694e" font-size="14.3" font-weight="780" text-anchor="middle">Combate</text><line x1="650" y1="87" x2="650" y2="612" stroke="#d3ddeb" stroke-width="1.5" stroke-dasharray="7 7"></line><rect x="754" y="21" width="152" height="65" rx="11" fill="#e7f6ee" stroke="#87c9a7" stroke-width="1.5"></rect><text x="830" y="59" fill="#23694e" font-size="14.3" font-weight="780" text-anchor="middle">Recompensas</text><line x1="830" y1="87" x2="830" y2="612" stroke="#d3ddeb" stroke-width="1.5" stroke-dasharray="7 7"></line><rect x="934" y="21" width="152" height="65" rx="11" fill="#fff1d7" stroke="#ddb97d" stroke-width="1.5"></rect><text x="1010" y="59" fill="#86601f" font-size="14.3" font-weight="780" text-anchor="middle">Oro / inventario</text><line x1="1010" y1="87" x2="1010" y2="612" stroke="#d3ddeb" stroke-width="1.5" stroke-dasharray="7 7"></line><rect x="0" y="105" width="1120" height="61" rx="5" fill="#fbfcff" opacity="0.9" data-step="0" style="cursor: pointer;"></rect><text x="22" y="140" fill="#93a1b5" font-size="14" font-weight="800">01</text><path d="M120,143 L280,143" fill="none" stroke="#8a9eb8" stroke-width="2" marker-end="url(#seqArrow)" opacity="1"></path><text x="200" y="132" fill="#49627d" font-size="12.4" text-anchor="middle" font-weight="600" opacity="1">Enviar golpe</text><rect x="0" y="110" width="1120" height="55" fill="transparent" style="cursor:pointer"></rect><rect x="0" y="177" width="1120" height="61" rx="5" fill="#ffffff" opacity="0.9" data-step="1" style="cursor: pointer;"></rect><text x="22" y="212" fill="#93a1b5" font-size="14" font-weight="800">02</text><path d="M300,215 L460,215" fill="none" stroke="#8a9eb8" stroke-width="2" marker-end="url(#seqArrow)" opacity="1"></path><text x="380" y="204" fill="#49627d" font-size="12.4" text-anchor="middle" font-weight="600" opacity="1">Publicar golpe</text><rect x="0" y="182" width="1120" height="55" fill="transparent" style="cursor:pointer"></rect><rect x="0" y="249" width="1120" height="61" rx="5" fill="#fbfcff" opacity="0.9" data-step="2" style="cursor: pointer;"></rect><text x="22" y="284" fill="#93a1b5" font-size="14" font-weight="800">03</text><path d="M480,287 L640,287" fill="none" stroke="#8a9eb8" stroke-width="2" marker-end="url(#seqArrow)" opacity="1"></path><text x="560" y="276" fill="#49627d" font-size="12.4" text-anchor="middle" font-weight="600" opacity="1">Consumir en orden</text><rect x="0" y="254" width="1120" height="55" fill="transparent" style="cursor:pointer"></rect><rect x="0" y="321" width="1120" height="61" rx="5" fill="#ffffff" opacity="0.9" data-step="3" style="cursor: pointer;"></rect><text x="22" y="356" fill="#93a1b5" font-size="14" font-weight="800">04</text><path d="M640,359 L480,359" fill="none" stroke="#8a9eb8" stroke-width="2" marker-end="url(#seqArrow)" opacity="1"></path><text x="560" y="348" fill="#49627d" font-size="12.4" text-anchor="middle" font-weight="600" opacity="1">Registrar resultado</text><rect x="0" y="326" width="1120" height="55" fill="transparent" style="cursor:pointer"></rect><rect x="0" y="393" width="1120" height="61" rx="5" fill="#fbfcff" opacity="0.9" data-step="4" style="cursor: pointer;"></rect><text x="22" y="428" fill="#93a1b5" font-size="14" font-weight="800">05</text><path d="M480,431 L820,431" fill="none" stroke="#8a9eb8" stroke-width="2" marker-end="url(#seqArrow)" opacity="1"></path><text x="650" y="420" fill="#49627d" font-size="12.4" text-anchor="middle" font-weight="600" opacity="1">Procesar premios</text><rect x="0" y="398" width="1120" height="55" fill="transparent" style="cursor:pointer"></rect><rect x="0" y="465" width="1120" height="61" rx="5" fill="#ffffff" opacity="0.9" data-step="5" style="cursor: pointer;"></rect><text x="22" y="500" fill="#93a1b5" font-size="14" font-weight="800">06</text><path d="M840,503 L1000,503" fill="none" stroke="#8a9eb8" stroke-width="2" marker-end="url(#seqArrow)" opacity="1"></path><text x="920" y="492" fill="#49627d" font-size="12.4" text-anchor="middle" font-weight="600" opacity="1">Acreditar por clave</text><rect x="0" y="470" width="1120" height="55" fill="transparent" style="cursor:pointer"></rect></svg></div><div class="sequence-caption" id="stepCaption" aria-live="polite">Elegí una flecha o avanzá por pasos.</div></div>
-            <p class="section-note">El caso seleccionado se conserva entre Problema, Falla, Garantía, Solución y Trade-off.</p>
+            <p class="section-note">El caso seleccionado se conserva entre Casos, Problema, Falla, Garantía, Solución y Trade-off.</p>
           </div>
         </div>
       </section>
@@ -281,18 +349,18 @@ function renderRecord(){
  el('recordTitle').textContent=c.title;el('recordProblem').textContent=c.problem;
  el('failureCounter').textContent=c.failures.length+' fallas';
  const failBox=el('recordFailures');failBox.replaceChildren();c.failures.forEach((fault,i)=>{
-  const b=document.createElement('button');b.type='button';b.className='failure-button'+(i===selectedFailure?' active':'');
+  const b=document.createElement(activeView==='cases'?'div':'button');if(activeView!=='cases')b.type='button';b.className='failure-button'+(activeView!=='cases'&&i===selectedFailure?' active':'');
   const code=document.createElement('span');code.className='failure-code';code.textContent=fault.id;
   const desc=document.createElement('span');desc.className='failure-text';
   const typ=document.createElement('span');typ.className='failure-kind';typ.textContent=fault.type;
   desc.append(typ,document.createTextNode(fault.text));b.append(code,desc);
-  b.addEventListener('click',()=>{selectedFailure=i;renderRecordFailure();writeRoute()});failBox.append(b)
+  if(activeView!=='cases')b.addEventListener('click',()=>{selectedFailure=i;renderRecordFailure();writeRoute()});failBox.append(b)
  });
  const gb=el('recordGuarantees');gb.replaceChildren();c.guarantees.forEach(g=>{const e=document.createElement('div');e.className='guarantee-item';const badge=document.createElement('b');badge.textContent=g.id;const body=document.createElement('span');body.textContent=g.text;e.append(badge,body);gb.append(e)});
  const switcher=el('recordVariants');switcher.replaceChildren();if(c.solutions.length>1)c.solutions.forEach((s,i)=>{
   const b=document.createElement('button');b.type='button';b.className='switchbtn'+(selectedSolution===i?' active':'');b.textContent=s.id;b.addEventListener('click',()=>{selectedSolution=i;activeStep=-1;renderRecordSolution();writeRoute()});switcher.append(b)
  });
- el('recordOriginal').open=false;renderRecordSolution();renderRecordFailure();if(focusRecord)el('recordList').querySelector('[data-record="'+focusRecord+'"]').focus({preventScroll:true});
+ el('recordOriginal').open=false;renderRecordSolution();renderRecordFailure();if(activeView==='cases')renderCaseOverview(c);if(focusRecord)el('recordList').querySelector('[data-record="'+focusRecord+'"]').focus({preventScroll:true});
 }
 function renderRecordFailure(){
  const c=sourceById[activeRecord],i=Math.min(selectedFailure,c.failures.length-1),fault=c.failures[i];
@@ -306,29 +374,41 @@ function renderRecordFailure(){
  const detail=caseById[activeRecord].faults[Math.min(mapIndex,caseById[activeRecord].faults.length-1)];
  d.textContent=detail[1];lim.textContent='Límite: '+detail[2];response.append(strong,d,lim)
 }
+function renderTradeoff(tradeoff,sol,c,level=4){
+ tradeoff.replaceChildren();
+ const sections=[['Puede seguir haciendo',sol.tradeoff.can],['No puede hacer o queda limitado',sol.tradeoff.limits],['Garantías que mantiene',c.guarantees.map(g=>g.id+' · '+g.text)],['Costo que acepta',[sol.tradeoff.cost]]];
+ sections.forEach(([title,items])=>{const section=document.createElement('section');section.className='minirow';const heading=document.createElement('h'+level);heading.textContent=title;const list=document.createElement('ul');list.className='tight-list';items.forEach(text=>{const item=document.createElement('li');item.textContent=text;list.append(item)});section.append(heading,list);tradeoff.append(section)});
+}
+function renderCaseOverview(c){
+ const solutions=el('caseSolutions'),tradeoffs=el('caseTradeoffs');solutions.replaceChildren();tradeoffs.replaceChildren();
+ c.solutions.forEach(sol=>{
+  const article=document.createElement('article');article.className='case-solution';
+  const title=document.createElement('h4');title.textContent=sol.id;article.append(title);
+  sol.full.split('\n\n').forEach((text,i)=>{const p=document.createElement('p');p.textContent=text;if(i===0)p.className='record-solution';article.append(p)});solutions.append(article);
+  const tradeoff=document.createElement('article');tradeoff.className='case-tradeoff';const heading=document.createElement('h4');heading.textContent=sol.id;const body=document.createElement('div');body.className='tradeoff-grid';renderTradeoff(body,sol,c,5);tradeoff.append(heading,body);tradeoffs.append(tradeoff);
+ });
+}
 function renderRecordSolution(){
  const c=sourceById[activeRecord],sol=c.solutions[selectedSolution]||c.solutions[0],f=caseById[activeRecord];
  el('recordSolution').textContent=sol.lead;
- const tradeoff=el('recordTradeoff');tradeoff.replaceChildren();
- const sections=[['Puede seguir haciendo',sol.tradeoff.can],['No puede hacer o queda limitado',sol.tradeoff.limits],['Garantías que mantiene',c.guarantees.map(g=>g.id+' · '+g.text)],['Costo que acepta',[sol.tradeoff.cost]]];
- sections.forEach(([title,items])=>{const section=document.createElement('section');section.className='minirow';const heading=document.createElement('h4');heading.textContent=title;const list=document.createElement('ul');list.className='tight-list';items.forEach(text=>{const item=document.createElement('li');item.textContent=text;list.append(item)});section.append(heading,list);tradeoff.append(section)});
+ renderTradeoff(el('recordTradeoff'),sol,c);
  activeCase=activeRecord;if(activeCase==='capacity')f.variant=selectedSolution===1?'s2':'s1';if(activeStep>=currentSteps().length)activeStep=-1;renderSequence();
  const full=el('recordSolutionFull');full.replaceChildren();sol.full.split('\n\n').forEach(text=>{const p=document.createElement('p');p.textContent=text;full.append(p)});
  document.querySelectorAll('#recordVariants button').forEach((btn,k)=>{btn.classList.toggle('active',k===selectedSolution);btn.setAttribute('aria-pressed',String(k===selectedSolution))});
 }
 el('recordGoArchitecture').onclick=()=>{activeModule=caseById[activeRecord].actors.find(id=>id!=='client')||'entry';renderInspector();switchView('architecture')};
-el('briefStart').onclick=()=>switchView('problems');
+el('briefStart').onclick=()=>switchView('cases');
 el('briefArchitecture').onclick=()=>switchView('architecture');
 el('downloadBrief').onclick=()=>showDownload('brief');
 
 function switchView(name, sync=true){
- activeView=name;
+ activeView=name;el('view-records').dataset.view=name;
  document.querySelectorAll('[data-view]').forEach(a=>{const selected=a.dataset.view===name;a.classList.toggle('active',selected);if(selected)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
  ['brief','records','architecture','deployment'].forEach(id=>el('view-'+id).classList.toggle('hide',id==='records'?!recordViews.includes(name):id!==name));
- const titles={brief:['Consigna y alcance','Enunciado del trabajo'],problems:['Diseño integrado','Problema'],failures:['Diseño integrado','Falla'],guarantees:['Diseño integrado','Garantía'],solutions:['Diseño integrado','Solución'],tradeoffs:['Diseño integrado','Trade-off'],architecture:['Diseño del sistema','Arquitectura general'],deployment:['Infraestructura','Distribución entre datacenters']};
+ const titles={cases:['Diseño integrado','Casos'],brief:['Consigna y alcance','Enunciado del trabajo'],problems:['Diseño integrado','Problema'],failures:['Diseño integrado','Falla'],guarantees:['Diseño integrado','Garantía'],solutions:['Diseño integrado','Solución'],tradeoffs:['Diseño integrado','Trade-off'],architecture:['Diseño del sistema','Arquitectura general'],deployment:['Infraestructura','Distribución entre datacenters']};
  el('topEyebrow').textContent=titles[name][0];el('topTitle').textContent=titles[name][1];document.title=titles[name][1]+' · Asteria Online';
  if(recordViews.includes(name)){
-  const intro={problems:['Qué problema resuelve cada caso.','Seleccioná un caso para consultar el problema que resuelve.'],failures:['Qué puede fallar.','Seleccioná un caso y una falla para ver cómo responde el sistema y cuáles son sus límites.'],guarantees:['Qué protege cada caso.','Seleccioná un caso para consultar sus garantías de negocio.'],tradeoffs:['Qué puede seguir haciendo el sistema ante fallas.','Consultá qué capacidades mantiene, qué acciones quedan limitadas y qué costo acepta para proteger sus garantías.'],solutions:['Cómo responde el diseño.','Seleccioná un caso para consultar su solución, comparar variantes y abrir la descripción completa.']};
+  const intro={cases:['El caso completo, de principio a fin.','Problema, fallas, garantías, soluciones y trade-offs del mismo caso, en el orden del documento.'],problems:['Qué problema resuelve cada caso.','Seleccioná un caso para consultar el problema que resuelve.'],failures:['Qué puede fallar.','Seleccioná un caso y una falla para ver cómo responde el sistema y cuáles son sus límites.'],guarantees:['Qué protege cada caso.','Seleccioná un caso para consultar sus garantías de negocio.'],tradeoffs:['Qué puede seguir haciendo el sistema ante fallas.','Consultá qué capacidades mantiene, qué acciones quedan limitadas y qué costo acepta para proteger sus garantías.'],solutions:['Cómo responde el diseño.','Seleccioná un caso para consultar su solución, comparar variantes y abrir la descripción completa.']};
   el('recordIntroTitle').textContent=intro[name][0];el('recordIntroText').textContent=intro[name][1];
   document.querySelectorAll('[data-record-panels]').forEach(panel=>panel.classList.toggle('hide',!panel.dataset.recordPanels.split(' ').includes(name)));
   renderRecord();
@@ -390,7 +470,7 @@ el('moduleSelect').replaceChildren(...Object.entries(mods).map(([id,m])=>new Opt
 el('moduleSelect').onchange=()=>{activeModule=el('moduleSelect').value;renderGraph();renderInspector();writeRoute()};
 
 function currentSteps(){const c=caseById[activeCase];return c.id==='capacity'&&c.variant==='s2'?c.s2steps:c.steps}
-function renderSequence(){const c=caseById[activeCase],st=currentSteps(),participants=c.actors;const svg=el('seqSvg');svg.replaceChildren();const spacing=180,x0=110;const w=Math.max(890,participants.length*spacing+40),h=175+st.length*72+28;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.setAttribute('width',w);svg.setAttribute('height',h);
+function renderSequence(){const c=caseById[activeCase],st=currentSteps(),participants=c.actors;const svg=el('seqSvg');svg.replaceChildren();const spacing=180,x0=110;const w=participants.length*spacing+40,h=175+st.length*72+28;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.setAttribute('width',w);svg.setAttribute('height',h);
  const defs=svgEl('defs');const marker=svgEl('marker',{id:'seqArrow',viewBox:'0 0 10 10',refX:'9',refY:'5',markerWidth:'7',markerHeight:'7',orient:'auto'});marker.append(svgEl('path',{d:'M0 1 L9 5 L0 9Z',fill:'#738cae'}));defs.append(marker);svg.append(defs);
  const indices=Object.fromEntries(participants.map((m,i)=>[m,i]));participants.forEach((id,i)=>{const x=x0+i*spacing;const m=mods[id],color=colors[m.g];svg.append(svgEl('rect',{x:x-76,y:21,width:152,height:65,rx:11,fill:color.bg,stroke:color.border,'stroke-width':1.5}));const title=m.short.length>18?m.short.slice(0,17)+'…':m.short;const txt=svgEl('text',{x,y:59,fill:color.ink,'font-size':14.3,'font-weight':780,'text-anchor':'middle'},title);svg.append(txt);svg.append(svgEl('line',{x1:x,y1:87,x2:x,y2:h-23,stroke:'#d3ddeb','stroke-width':1.5,'stroke-dasharray':'7 7'}))});
  st.forEach((s,i)=>{const [from,to,msg,explain]=s,ya=136+i*72,x1=x0+indices[from]*spacing,x2=x0+indices[to]*spacing,selected=i===activeStep,muted=activeStep!==-1&&!selected;let stripe=svgEl('rect',{x:0,y:ya-31,width:w,height:61,rx:5,fill:selected?'#e8f0ff':i%2===0?'#fbfcff':'#ffffff',opacity:selected?1:.9,'data-step':i});stripe.style.cursor='pointer';stripe.addEventListener('click',()=>{activeStep=i;renderSequence();writeRoute()});svg.append(stripe);
@@ -440,7 +520,7 @@ function downloadFile(name,content,type='text/plain;charset=utf-8'){const blob=n
 function exportMermaid(){const item=mermaidActive();downloadFile(item.filename,item.code);toast('Mermaid de esta vista exportado')}
 // Location state survives refresh and browser Back without storing personal data.
 let routeReady=false;
-const recordViews=['problems','failures','guarantees','solutions','tradeoffs'];
+const recordViews=['cases','problems','failures','guarantees','solutions','tradeoffs'];
 const viewNames=['brief',...recordViews,'architecture','deployment'];
 function parseRoute(hash){
  const [name,query='']=hash.replace(/^#/, '').split('?');

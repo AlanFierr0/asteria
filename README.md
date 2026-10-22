@@ -10,13 +10,13 @@ Abrir `index.html` en un navegador. El documento incluye estilos, scripts y el P
 
 Trabajo práctico: Enunciado.
 
-Diseño integrado: Problema, Falla, Garantía, Solución, Trade-off, Arquitectura y Datacenters. Las primeras cinco pestañas conservan el caso seleccionado. Solución incluye el diagrama de interacción y las variantes S1/S2; Trade-off explica qué puede seguir haciendo el sistema ante fallas, qué queda limitado, qué garantías mantiene y qué costo acepta para cada variante. Los enlaces anteriores a Procesos y fallas abren Solución.
+Diseño integrado: Casos, Problema, Falla, Garantía, Solución, Trade-off, Arquitectura y Datacenters. Casos muestra Problema, Fallas, Garantías, todas las Soluciones (incluidas S1/S2) y sus Trade-offs en el orden del documento. Las seis pestañas de contenido conservan el caso seleccionado. Solución incluye el diagrama de interacción y las variantes S1/S2; Trade-off explica qué puede seguir haciendo el sistema ante fallas, qué queda limitado, qué garantías mantiene y qué costo acepta para cada variante. Los enlaces anteriores a Procesos y fallas abren Solución.
 
 Las secciones y selecciones se pueden compartir mediante su URL. El diseño se adapta a pantallas pequeñas y a la preferencia de apariencia del sistema.
 
 ## Verificación
 
-`node scripts/check.mjs` comprueba la sintaxis, los identificadores, el contenido y el estado de las URL. La revisión de UX/UI y sus límites están en [docs/ux-review.md](docs/ux-review.md).
+`node scripts/check.mjs` comprueba la sintaxis, los identificadores, el contenido y el estado de las URL. La revisión visual y la vista Casos están documentadas en [docs/visual-review-2026-10-22.md](docs/visual-review-2026-10-22.md). La auditoría anterior se conserva en [docs/ux-review.md](docs/ux-review.md).
 
 ## Integrantes
 

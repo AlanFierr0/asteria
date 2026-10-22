@@ -85,8 +85,8 @@ const routeSource = script.slice(script.indexOf('function parseRoute('), script.
 let written;
 const context = vm.createContext({
   URLSearchParams,
-  recordViews: ['problems', 'failures', 'guarantees', 'solutions', 'tradeoffs'],
-  viewNames: ['brief', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment'],
+  recordViews: ['cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs'],
+  viewNames: ['brief', 'cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment'],
   routeReady: true, activeView: 'failures', activeRecord: 'market',
   selectedFailure: 2, selectedSolution: 0, activeCase: 'capacity', activeStep: 3,
   activeFault: 1, activeModule: 'payments', dcMode: 'partition',
@@ -100,6 +100,7 @@ const context = vm.createContext({
 });
 vm.runInContext(routeSource, context);
 assert.equal(context.parseRoute('#unknown?case=market').view, 'brief');
+assert.equal(context.parseRoute('#cases?case=capacity').view, 'cases');
 assert.equal(context.parseRoute('#records?case=market').view, 'problems', 'Keep old case links working');
 assert.equal(context.parseRoute('#flows?case=capacity&variant=s2').view, 'solutions', 'Old process links open Solution');
 assert.equal(context.parseRoute('#flows?case=capacity&step=3').params.get('step'), '3');
@@ -114,7 +115,26 @@ for (const view of context.recordViews) {
 }
 const nav = markup.match(/<nav class="nav-main"[\s\S]*?<\/nav>/)[0];
 assert.deepEqual([...nav.split('Diseño integrado')[0].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['brief']);
-assert.deepEqual([...nav.split('Diseño integrado')[1].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment']);
+assert.deepEqual([...nav.split('Diseño integrado')[1].matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment']);
+const sections = ['recordProblem', 'recordFailures', 'recordGuarantees', 'caseSolutions', 'caseTradeoffs'].map(id => markup.indexOf(`id="${id}"`));
+assert.ok(sections.every((position, i) => position >= 0 && (i === 0 || position > sections[i - 1])), 'Cases must follow document order');
+const element = tagName => ({ tagName, children: [], textContent: '', append(...items) { this.children.push(...items); }, replaceChildren(...items) { this.children = items; } });
+const aggregate = { caseSolutions: element('div'), caseTradeoffs: element('div') };
+const aggregateContext = vm.createContext({ document: { createElement: element }, el: id => aggregate[id], selectedSolution: 1 });
+vm.runInContext(script.slice(script.indexOf('function renderTradeoff('), script.indexOf('function renderRecordSolution(')), aggregateContext);
+const content = node => [node.textContent, ...node.children.map(content)].join('\n');
+for (const item of cases) {
+  aggregateContext.renderCaseOverview(item);
+  assert.equal(aggregate.caseSolutions.children.length, item.solutions.length);
+  assert.equal(aggregate.caseTradeoffs.children.length, item.solutions.length);
+  item.solutions.forEach((solution, index) => {
+    const article = aggregate.caseSolutions.children[index];
+    assert.equal(article.children[0].textContent, solution.id);
+    assert.equal(article.children.slice(1).map(node => node.textContent).join('\n\n'), solution.full, 'Full solution text must remain unchanged');
+    assert.ok(content(aggregate.caseTradeoffs.children[index]).includes(solution.tradeoff.cost));
+  });
+}
+assert.equal(aggregateContext.selectedSolution, 1, 'Reading all solutions must not change the selected variant');
 context.activeView = 'solutions';
 context.activeRecord = 'capacity';
 context.selectedFailure = 0;
