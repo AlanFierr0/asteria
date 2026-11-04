@@ -15,19 +15,29 @@ assert.equal(cases.length, 7);
 assert.equal(cases.reduce((total, item) => total + item.failures.length, 0), 22);
 assert.equal(cases.reduce((total, item) => total + item.solutions.length, 0), 8);
 assert.equal(cases.reduce((total, item) => total + item.guarantees.length, 0), 11);
+assert.ok(cases.every(item => item.failures.some(failure => failure.type === 'Cliente')));
+assert.ok(cases.flatMap(item => item.failures).filter(failure => failure.type === 'Cliente').length >= 8);
+assert.ok(cases.filter(item => item.failures.some(failure => failure.type === 'Infraestructura')).length >= 3);
 assert.ok(cases.every(item => item.solutions.every(({ tradeoff }) =>
   tradeoff.can.length > 0 && tradeoff.limits.length > 0 && tradeoff.cost.length > 20
 )), 'Each solution needs capabilities, limitations and an accepted cost');
+assert.ok(cases.every(item => item.solutions.every(({ full }) =>
+  full.includes('Contrato común:') && full.includes('Cliente ↔') &&
+  full.includes('Respuesta y reintentos:') && full.includes('DEADLINE_EXCEEDED')
+)), 'Each solution must describe its interactions and uncertain responses');
 assert.match(cases.find(item => item.id === 'capacity').solutions[1].tradeoff.cost, /reserva que puede no ajustarse a la carga global/);
-assert.match(cases.find(item => item.id === 'payments').solutions[0].tradeoff.limits.join(' '), /no define el comportamiento ante una partición/);
+assert.match(cases.find(item => item.id === 'payments').solutions[0].tradeoff.limits.join(' '), /acreditación queda pendiente/);
 const corrected = Object.fromEntries(cases.map(item => [item.id, item]));
-assert.match(corrected.rewards.problem, /victoria o derrota/);
-assert.match(corrected.rewards.solutions[0].full, /combate, jugador y tipo/);
+assert.match(corrected.rewards.problem, /recompensas en caso de victoria/);
+assert.match(corrected.rewards.solutions[0].full, /si hay derrota, no hay recompensas/i);
+assert.match(corrected.rewards.solutions[0].full, /recompensaId/);
 assert.match(corrected.rewards.solutions[0].full, /menor latencia/);
 assert.match(corrected.entry.solutions[0].full, /no todos los datos del jugador/);
+assert.match(corrected.entry.solutions[0].full, /transacción serializable impide gastar el mismo saldo o asignar el mismo cupo/);
 assert.match(corrected.market.solutions[0].full, /identificador se registra en la misma transacción/);
 assert.match(corrected.market.solutions[0].full, /mayoría \(2 de 3 datacenters\)/);
-assert.match(corrected.payments.solutions[0].full, /consulta al proveedor de pagos para recuperar autorizaciones/);
+assert.match(corrected.payments.solutions[0].full, /consulta al proveedor de pagos para recuperar capturas/);
+assert.match(corrected.payments.solutions[0].full, /no puede garantizar por sí sola que no se cobre dos veces/);
 assert.match(corrected.capacity.solutions[0].full, /Si no hay capacidad, conservan prioridad de ingreso/);
 assert.match(corrected.directory.solutions[0].full, /se rechaza el ingreso y se actualiza la información/);
 const dataSource = script.slice(script.indexOf('const groups='), script.indexOf("let activeView="));
@@ -36,7 +46,7 @@ const stepsSource = script.match(/function currentSteps\(\)\{[^\n]+/)[0];
 const exportContext = vm.createContext({ activeView: 'solutions', activeCase: 'capacity' });
 vm.runInContext(dataSource + stepsSource + '\n' + exportSource, exportContext);
 const flows = vm.runInContext('cases', exportContext);
-assert.match(flows.find(item => item.id === 'timeout').steps.at(-1)[3], /victoria o derrota/);
+assert.match(flows.find(item => item.id === 'timeout').steps.at(-1)[3], /derrota no hay recompensas/);
 assert.match(flows.find(item => item.id === 'entry').steps.map(step => step[2]).join(' '), /WAL 2\/3/);
 assert.match(flows.find(item => item.id === 'payments').steps.at(-1)[3], /proveedor de pagos/);
 assert.match(flows.find(item => item.id === 'market').faults[0][1], /mismo identificador/);
@@ -131,6 +141,7 @@ const aggregate = { caseSolutions: element('div'), caseTradeoffs: element('div')
 const aggregateContext = vm.createContext({ document: { createElement: element }, el: id => aggregate[id], selectedSolution: 1 });
 vm.runInContext(script.slice(script.indexOf('function renderTradeoff('), script.indexOf('function renderRecordSolution(')), aggregateContext);
 const content = node => [node.textContent, ...node.children.map(content)].join('\n');
+const plainText = node => node.textContent + node.children.map(plainText).join('');
 for (const item of cases) {
   aggregateContext.renderCaseOverview(item);
   assert.equal(aggregate.caseSolutions.children.length, item.solutions.length);
@@ -138,7 +149,7 @@ for (const item of cases) {
   item.solutions.forEach((solution, index) => {
     const article = aggregate.caseSolutions.children[index];
     assert.equal(article.children[0].textContent, solution.id);
-    assert.equal(article.children.slice(1).map(node => node.textContent).join('\n\n'), solution.full, 'Full solution text must remain unchanged');
+    assert.equal(article.children.slice(1).map(plainText).join('\n\n'), solution.full, 'Full solution text must remain unchanged');
     assert.ok(content(aggregate.caseTradeoffs.children[index]).includes(solution.tradeoff.cost));
     assert.equal(aggregate.caseTradeoffs.children[index].children[1].children.length, 3, 'Complete cases must not repeat the guarantees inside each trade-off');
     assert.equal([solution.lead, ...aggregateContext.solutionBody(solution)].join('\n\n'), solution.full, 'The lead plus development must preserve the full solution exactly once');
@@ -153,6 +164,7 @@ const selections = vm.createContext({
   sourceById: Object.fromEntries(cases.map(item => [item.id, item])),
   activeRecord: 'capacity', activeCase: 'capacity', selectedFailure: 1, selectedSolution: 1, activeStep: 2,
   renderRecord: () => renderCalls++, writeRoute: push => assert.equal(push, true),
+  document: { querySelector: () => null }, animateArrival: () => {},
   window: { scrollTo: options => { assert.equal(options.top, 0); scrollCalls++; } },
 });
 vm.runInContext(script.slice(script.indexOf('function selectRecord('), script.indexOf("el('caseSelect').replaceChildren")), selections);
@@ -198,7 +210,7 @@ for (const item of cases) {
   assert.equal(aids.caseGlossary.hidden, aids.glossaryTerms.children.length === 0);
 }
 academicContext.renderAcademicAids(cases.find(item => item.id === 'capacity'));
-assert.equal(aids.comparisonRows.children.length, 3);
+assert.equal(aids.comparisonRows.children.length, 4);
 academicContext.renderAcademicAids(cases.find(item => item.id === 'payments'));
 assert.ok(aids.glossaryTerms.children.some(node => node.textContent === 'Outbox'));
 assert.doesNotThrow(() => academicContext.jumpToCaseSection('unknown'));
