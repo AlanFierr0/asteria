@@ -10,6 +10,35 @@ new vm.Script(script);
 const markup = html.slice(0, html.indexOf('<script>'));
 const ids = [...markup.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 assert.equal(new Set(ids).size, ids.length, 'Duplicate HTML IDs');
+const deckHtml = readFileSync(new URL('presentacion/index.html', root), 'utf8');
+const deckBridge = deckHtml.match(/<script>\s*(\/\/ Bridge for the surrounding Asteria page;[\s\S]*?)<\/script>/)?.[1];
+assert.ok(deckBridge, 'The embedded presentation needs its navigation bridge');
+let slide = 0, deckStatus;
+const deckListeners = {};
+const deckParent = { postMessage: message => { deckStatus = message; } };
+const deckWindow = {
+  parent: deckParent,
+  addEventListener: (type, listener) => { deckListeners[type] = listener; },
+  dispatchEvent: event => { slide += event.key === 'ArrowRight' ? 1 : -1; },
+};
+const deckSlides = Array.from({ length: 13 }, (_, index) => ({ hasAttribute: () => index !== slide }));
+vm.runInNewContext(deckBridge, {
+  window: deckWindow, document: { querySelectorAll: () => deckSlides },
+  KeyboardEvent: class { constructor(type, options) { this.key = options.key; } },
+  setTimeout: callback => callback(),
+});
+deckListeners.load();
+assert.equal(deckStatus.current, 1);
+deckListeners.message({ source: {}, data: { type: 'asteria-deck-control', direction: 'next' } });
+assert.equal(slide, 0, 'Messages from other windows must not control the deck');
+deckListeners.message({ source: deckParent, data: { type: 'asteria-deck-control', direction: 'next' } });
+assert.equal(deckStatus.current, 2, 'Next advances the embedded presentation');
+deckListeners.message({ source: deckParent, data: { type: 'asteria-deck-control', direction: 'previous' } });
+assert.equal(deckStatus.current, 1, 'Previous returns to the first slide');
+let escapePrevented = false;
+deckListeners.keydown({ key: 'Escape', preventDefault: () => { escapePrevented = true; } });
+assert.equal(deckStatus.type, 'asteria-deck-exit', 'Escape returns to the host page');
+assert.equal(escapePrevented, true);
 const cases = JSON.parse(script.match(/const sourceCases=(\[[^\n]+\]);/)[1]);
 assert.equal(cases.length, 7);
 assert.equal(cases.reduce((total, item) => total + item.failures.length, 0), 22);
@@ -97,7 +126,7 @@ const caseLinks = ['cases', 'problems', 'failures', 'guarantees', 'solutions', '
 const context = vm.createContext({
   URLSearchParams,
   recordViews: ['cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs'],
-  viewNames: ['brief', 'cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment'],
+  viewNames: ['presentation', 'brief', 'cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment'],
   routeReady: true, activeView: 'failures', activeRecord: 'market',
   selectedFailure: 2, selectedSolution: 0, activeCase: 'capacity', activeStep: 3,
   activeFault: 1, activeModule: 'payments', dcMode: 'partition',
@@ -112,6 +141,8 @@ const context = vm.createContext({
 });
 vm.runInContext(routeSource, context);
 assert.equal(context.parseRoute('#unknown?case=market').view, 'brief');
+assert.equal(context.parseRoute('').view, 'presentation', 'The presentation is the initial view');
+assert.equal(context.parseRoute('#presentation').view, 'presentation');
 assert.equal(context.parseRoute('#cases?case=capacity').view, 'cases');
 assert.equal(context.parseRoute('#records?case=market').view, 'problems', 'Keep old case links working');
 assert.equal(context.parseRoute('#flows?case=capacity&variant=s2').view, 'solutions', 'Old process links open Solution');
@@ -131,7 +162,7 @@ for (const link of caseLinks) {
   assert.equal(context.parseRoute(link.href).params.get('failure'), '2');
 }
 const nav = markup.match(/<nav class="nav-main"[\s\S]*?<\/nav>/)[0];
-assert.deepEqual([...nav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['brief', 'cases', 'architecture', 'deployment']);
+assert.deepEqual([...nav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['presentation', 'brief', 'cases', 'architecture', 'deployment']);
 const caseNav = markup.match(/<nav class="case-views"[\s\S]*?<\/nav>/)[0];
 assert.deepEqual([...caseNav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), Array.from(context.recordViews));
 const sections = ['recordProblem', 'recordFailures', 'recordGuarantees', 'caseSolutions', 'caseTradeoffs'].map(id => markup.indexOf(`id="${id}"`));
