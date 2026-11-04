@@ -8,7 +8,7 @@ Sitio publicado: https://asteria.alanfierro.dev
 
 Abrir `index.html` en un navegador. El documento incluye estilos, scripts y el PDF del enunciado; no requiere instalación ni dependencias.
 
-La navegación principal tiene cinco accesos: Presentación, Enunciado, Casos, Arquitectura y Datacenters. La presentación del caso 6 se puede recorrer desde el sitio o abrir en otra pestaña; para funcionar localmente necesita conservar la carpeta `presentacion` junto a `index.html`.
+La navegación principal tiene seis accesos: Presentación, Enunciado, Casos, Arquitectura, Datacenters y Bibliografía. La presentación del caso 6 se puede recorrer desde el sitio o abrir en otra pestaña; para funcionar localmente necesita conservar la carpeta `presentacion` junto a `index.html`. Bibliografía reúne el enunciado en PDF y los documentos de referencia del equipo en Google Docs.
 
 Dentro de Casos, un índice lateral en escritorio y un selector compacto en móvil permiten elegir el caso. Las pestañas Caso completo, Problema, Falla, Garantía, Solución y Trade-off conservan esa elección. Caso completo muestra Problema, Fallas, Garantías, todas las Soluciones (incluidas S1/S2) y sus Trade-offs en el orden del documento, sin repetir las garantías en cada variante. Solución incluye el desarrollo y el diagrama de interacción; Trade-off explica capacidades, límites, garantías y costos. Los enlaces anteriores a Procesos y fallas abren Solución.
 
@@ -36,4 +36,6 @@ Agustín Martínez, Alan Fierro, Nicolás Mangini y Tomás Alcázar.
 
 ## Fuente de contenido
 
-Actualizado el 22 de octubre de 2026 según la pestaña [Correcciones](https://docs.google.com/document/d/1XIylurv8bG78HzDHQjRj1hQXe2DOTDpEpgs7KUcjLSY/edit?tab=t.15qzevb2akzo). Los resúmenes, respuestas ante fallas, diagramas, módulos, distribución de datos y trade-offs reflejan esa revisión.
+Actualizado el 4 de noviembre de 2026 según la pestaña [Entrega Final](https://docs.google.com/document/d/1XIylurv8bG78HzDHQjRj1hQXe2DOTDpEpgs7KUcjLSY/edit?tab=t.15qzevb2akzo). Los resúmenes, respuestas ante fallas, diagramas, módulos, distribución de datos y trade-offs reflejan esa revisión.
+
+El documento es la fuente de verdad para problemas, fallas, garantías y soluciones. Se conservan como ampliaciones los contratos gRPC, las validaciones propuestas y los trade-offs de la web. El ingreso utiliza pasos recuperables con compensación; la acreditación de oro se habilita con la autorización del pago, según el documento.

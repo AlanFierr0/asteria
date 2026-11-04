@@ -11,6 +11,12 @@ const markup = html.slice(0, html.indexOf('<script>'));
 const ids = [...markup.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 assert.equal(new Set(ids).size, ids.length, 'Duplicate HTML IDs');
 const deckHtml = readFileSync(new URL('presentacion/index.html', root), 'utf8');
+const deckConfig = JSON.parse(deckHtml.match(/<script type="application\/json" id="deck-motion">([\s\S]*?)<\/script>/)[1]);
+const deckSections = [...deckHtml.matchAll(/<section class="deck-slide" id="(\d+)"[^>]*>/g)];
+assert.equal(deckConfig.slides.length, 14, 'The slide controller must include the architecture slide');
+assert.deepEqual(deckSections.map(match => Number(match[1])), Array.from({ length: 14 }, (_, index) => index + 1));
+assert.ok(deckHtml.indexOf('data-label="Arquitectura ante saturación"') > deckHtml.indexOf('data-label="Capacidad reservada y degradación"'));
+assert.equal((deckHtml.match(/data-capacity-node=/g) || []).length, 14, 'The presentation retains the full architecture map');
 const deckBridge = deckHtml.match(/<script>\s*(\/\/ Bridge for the surrounding Asteria page;[\s\S]*?)<\/script>/)?.[1];
 assert.ok(deckBridge, 'The embedded presentation needs its navigation bridge');
 let slide = 0, deckStatus;
@@ -21,7 +27,7 @@ const deckWindow = {
   addEventListener: (type, listener) => { deckListeners[type] = listener; },
   dispatchEvent: event => { slide += event.key === 'ArrowRight' ? 1 : -1; },
 };
-const deckSlides = Array.from({ length: 13 }, (_, index) => ({ hasAttribute: () => index !== slide }));
+const deckSlides = Array.from({ length: 14 }, (_, index) => ({ hasAttribute: () => index !== slide }));
 vm.runInNewContext(deckBridge, {
   window: deckWindow, document: { querySelectorAll: () => deckSlides },
   KeyboardEvent: class { constructor(type, options) { this.key = options.key; } },
@@ -57,15 +63,18 @@ assert.ok(cases.every(item => item.solutions.every(({ full }) =>
 assert.match(cases.find(item => item.id === 'capacity').solutions[1].tradeoff.cost, /reserva que puede no ajustarse a la carga global/);
 assert.match(cases.find(item => item.id === 'payments').solutions[0].tradeoff.limits.join(' '), /acreditación queda pendiente/);
 const corrected = Object.fromEntries(cases.map(item => [item.id, item]));
-assert.match(corrected.rewards.problem, /recompensas en caso de victoria/);
-assert.match(corrected.rewards.solutions[0].full, /si hay derrota, no hay recompensas/i);
+assert.match(corrected.rewards.problem, /ya sea por victoria o derrota/);
+assert.doesNotMatch(corrected.rewards.solutions[0].full, /si hay derrota, no hay recompensas/i);
 assert.match(corrected.rewards.solutions[0].full, /recompensaId/);
 assert.match(corrected.rewards.solutions[0].full, /menor latencia/);
 assert.match(corrected.entry.solutions[0].full, /no todos los datos del jugador/);
-assert.match(corrected.entry.solutions[0].full, /transacción serializable impide gastar el mismo saldo o asignar el mismo cupo/);
+assert.match(corrected.entry.solutions[0].full, /pendiente de compensación/);
+assert.match(corrected.entry.solutions[0].full, /No se supone una transacción única/);
 assert.match(corrected.market.solutions[0].full, /identificador se registra en la misma transacción/);
 assert.match(corrected.market.solutions[0].full, /mayoría \(2 de 3 datacenters\)/);
-assert.match(corrected.payments.solutions[0].full, /consulta al proveedor de pagos para recuperar capturas/);
+assert.match(corrected.payments.solutions[0].full, /consulta al proveedor de pagos para recuperar autorizaciones/);
+assert.match(corrected.payments.guarantees[0].text, /Un pago autorizado/);
+assert.doesNotMatch(corrected.payments.solutions[0].full, /solo una captura confirmada habilita|la autorización no acredita oro/);
 assert.match(corrected.payments.solutions[0].full, /no puede garantizar por sí sola que no se cobre dos veces/);
 assert.match(corrected.capacity.solutions[0].full, /Si no hay capacidad, conservan prioridad de ingreso/);
 assert.match(corrected.directory.solutions[0].full, /se rechaza el ingreso y se actualiza la información/);
@@ -75,7 +84,9 @@ const stepsSource = script.match(/function currentSteps\(\)\{[^\n]+/)[0];
 const exportContext = vm.createContext({ activeView: 'solutions', activeCase: 'capacity' });
 vm.runInContext(dataSource + stepsSource + '\n' + exportSource, exportContext);
 const flows = vm.runInContext('cases', exportContext);
-assert.match(flows.find(item => item.id === 'timeout').steps.at(-1)[3], /derrota no hay recompensas/);
+assert.match(flows.find(item => item.id === 'timeout').steps.at(-1)[3], /resultado confirmado/);
+assert.equal(flows.find(item => item.id === 'payments').cap, 'NA');
+assert.ok(!markup.includes('Esc vuelve al enunciado. Abrila aparte'), 'Remove the presentation disclaimer');
 assert.match(flows.find(item => item.id === 'entry').steps.map(step => step[2]).join(' '), /WAL 2\/3/);
 assert.match(flows.find(item => item.id === 'payments').steps.at(-1)[3], /proveedor de pagos/);
 assert.match(flows.find(item => item.id === 'market').faults[0][1], /mismo identificador/);
@@ -126,7 +137,7 @@ const caseLinks = ['cases', 'problems', 'failures', 'guarantees', 'solutions', '
 const context = vm.createContext({
   URLSearchParams,
   recordViews: ['cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs'],
-  viewNames: ['presentation', 'brief', 'cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment'],
+  viewNames: ['presentation', 'brief', 'cases', 'problems', 'failures', 'guarantees', 'solutions', 'tradeoffs', 'architecture', 'deployment', 'bibliography'],
   routeReady: true, activeView: 'failures', activeRecord: 'market',
   selectedFailure: 2, selectedSolution: 0, activeCase: 'capacity', activeStep: 3,
   activeFault: 1, activeModule: 'payments', dcMode: 'partition',
@@ -143,6 +154,7 @@ vm.runInContext(routeSource, context);
 assert.equal(context.parseRoute('#unknown?case=market').view, 'brief');
 assert.equal(context.parseRoute('').view, 'presentation', 'The presentation is the initial view');
 assert.equal(context.parseRoute('#presentation').view, 'presentation');
+assert.equal(context.parseRoute('#bibliography').view, 'bibliography');
 assert.equal(context.parseRoute('#cases?case=capacity').view, 'cases');
 assert.equal(context.parseRoute('#records?case=market').view, 'problems', 'Keep old case links working');
 assert.equal(context.parseRoute('#flows?case=capacity&variant=s2').view, 'solutions', 'Old process links open Solution');
@@ -162,7 +174,12 @@ for (const link of caseLinks) {
   assert.equal(context.parseRoute(link.href).params.get('failure'), '2');
 }
 const nav = markup.match(/<nav class="nav-main"[\s\S]*?<\/nav>/)[0];
-assert.deepEqual([...nav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['presentation', 'brief', 'cases', 'architecture', 'deployment']);
+assert.deepEqual([...nav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), ['presentation', 'brief', 'cases', 'architecture', 'deployment', 'bibliography']);
+const bibliography = markup.match(/<section id="view-bibliography"[\s\S]*?<\/section>/)[0];
+assert.match(bibliography, /id="downloadBriefBibliography"/, 'The bibliography offers the assignment PDF');
+assert.match(script, /el\('downloadBriefBibliography'\)\.onclick=\(\)=>showDownload\('brief'\)/);
+assert.match(bibliography, /1XIylurv8bG78HzDHQjRj1hQXe2DOTDpEpgs7KUcjLSY\/edit\?tab=t\.15qzevb2akzo/);
+assert.match(bibliography, /1J5ZoPQFVaQn2wXNAoxu88LO7X_8XNaGbIF9ThqJ3G_4\/edit\?tab=t\.0/);
 const caseNav = markup.match(/<nav class="case-views"[\s\S]*?<\/nav>/)[0];
 assert.deepEqual([...caseNav.matchAll(/data-view="([^"]+)"/g)].map(m => m[1]), Array.from(context.recordViews));
 const sections = ['recordProblem', 'recordFailures', 'recordGuarantees', 'caseSolutions', 'caseTradeoffs'].map(id => markup.indexOf(`id="${id}"`));
