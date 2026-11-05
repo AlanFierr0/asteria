@@ -78,7 +78,10 @@ assert.match(corrected.payments.solutions[0].full, /consulta al proveedor de pag
 assert.match(corrected.payments.guarantees[0].text, /Un pago autorizado/);
 assert.doesNotMatch(corrected.payments.solutions[0].full, /solo una captura confirmada habilita|la autorización no acredita oro/);
 assert.match(corrected.payments.solutions[0].full, /no puede garantizar por sí sola que no se cobre dos veces/);
-assert.match(corrected.capacity.solutions[0].full, /Si no hay capacidad, conservan prioridad de ingreso/);
+assert.match(corrected.capacity.solutions[0].full, /Instancia\/SolicitarReconexion/);
+assert.match(corrected.capacity.solutions[0].full, /se libera la capacidad que ocupaba/);
+for (const state of ['Admitido:', 'En espera:', 'Vencido:']) assert.ok(corrected.capacity.solutions[0].full.includes(state));
+assert.match(corrected.capacity.solutions[0].full, /estado guardado fuera del nodo caído/);
 assert.match(corrected.directory.solutions[0].full, /se rechaza el ingreso y se actualiza la información/);
 const dataSource = script.slice(script.indexOf('const groups='), script.indexOf("let activeView="));
 const exportSource = script.slice(script.indexOf('function mermaidActive('), script.indexOf('function downloadFile('));
