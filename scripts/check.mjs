@@ -60,7 +60,7 @@ assert.ok(cases.every(item => item.solutions.every(({ full }) =>
   !full.includes('Contrato común:') && !full.includes('Cliente ↔') &&
   !full.includes('Respuesta y reintentos:')
 )), 'Solutions must omit the supplementary contract and retry blocks');
-assert.match(cases.find(item => item.id === 'capacity').solutions[1].tradeoff.cost, /reserva que puede no ajustarse a la carga global/);
+assert.match(cases.find(item => item.id === 'capacity').solutions[1].tradeoff.cost, /reserva no garantiza recuperación inmediata/);
 assert.match(cases.find(item => item.id === 'payments').solutions[0].tradeoff.limits.join(' '), /acreditación queda pendiente/);
 const corrected = Object.fromEntries(cases.map(item => [item.id, item]));
 assert.match(corrected.rewards.problem, /ya sea por victoria o derrota/);
