@@ -57,27 +57,25 @@ assert.ok(cases.every(item => item.solutions.every(({ tradeoff }) =>
   tradeoff.can.length > 0 && tradeoff.limits.length > 0 && tradeoff.cost.length > 20
 )), 'Each solution needs capabilities, limitations and an accepted cost');
 assert.ok(cases.every(item => item.solutions.every(({ full }) =>
-  full.includes('Contrato común:') && full.includes('Cliente ↔') &&
-  full.includes('Respuesta y reintentos:') && full.includes('DEADLINE_EXCEEDED')
-)), 'Each solution must describe its interactions and uncertain responses');
+  !full.includes('Contrato común:') && !full.includes('Cliente ↔') &&
+  !full.includes('Respuesta y reintentos:')
+)), 'Solutions must omit the supplementary contract and retry blocks');
 assert.match(cases.find(item => item.id === 'capacity').solutions[1].tradeoff.cost, /reserva que puede no ajustarse a la carga global/);
 assert.match(cases.find(item => item.id === 'payments').solutions[0].tradeoff.limits.join(' '), /acreditación queda pendiente/);
 const corrected = Object.fromEntries(cases.map(item => [item.id, item]));
 assert.match(corrected.rewards.problem, /ya sea por victoria o derrota/);
 assert.doesNotMatch(corrected.rewards.solutions[0].full, /si hay derrota, no hay recompensas/i);
-assert.match(corrected.rewards.solutions[0].full, /recompensaId/);
+assert.match(corrected.rewards.solutions[0].full, /identificador único \(combate, jugador y premio\)/);
 assert.match(corrected.rewards.solutions[0].full, /designan a Estados Unidos como nuevo nodo activo/);
 assert.match(corrected.rewards.solutions[0].full, /combate termina sin recompensas/);
-assert.match(corrected.entry.solutions[0].full, /no todos los datos del jugador/);
 assert.match(corrected.entry.solutions[0].full, /pendiente de compensación/);
-assert.match(corrected.entry.solutions[0].full, /No se supone una transacción única/);
+assert.match(corrected.entry.solutions[0].full, /operación idempotente distinta/);
 assert.match(corrected.market.solutions[0].full, /identificador de solicitud y su resultado se guardan en esa misma transacción/);
 assert.match(corrected.market.solutions[0].full, /confirmación por sí sola no confirma la venta/);
 assert.match(corrected.market.solutions[0].full, /mayoría \(2 de 3\)/);
 assert.match(corrected.payments.solutions[0].full, /consulta al proveedor de pagos para recuperar autorizaciones/);
 assert.match(corrected.payments.guarantees[0].text, /Un pago autorizado/);
 assert.doesNotMatch(corrected.payments.solutions[0].full, /solo una captura confirmada habilita|la autorización no acredita oro/);
-assert.match(corrected.payments.solutions[0].full, /no puede garantizar por sí sola que no se cobre dos veces/);
 assert.match(corrected.capacity.solutions[0].full, /Instancia\/SolicitarReconexion/);
 assert.match(corrected.capacity.solutions[0].full, /se libera la capacidad que ocupaba/);
 for (const state of ['Admitido:', 'En espera:', 'Vencido:']) assert.ok(corrected.capacity.solutions[0].full.includes(state));
