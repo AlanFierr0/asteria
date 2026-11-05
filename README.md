@@ -8,7 +8,7 @@ Sitio publicado: https://asteria.alanfierro.dev
 
 Abrir `index.html` en un navegador. El documento incluye estilos, scripts y el PDF del enunciado; no requiere instalación ni dependencias.
 
-La navegación principal tiene seis accesos: Presentación, Enunciado, Casos, Arquitectura, Datacenters y Bibliografía. La presentación del caso 6 se puede recorrer desde el sitio o abrir en otra pestaña; para funcionar localmente necesita conservar la carpeta `presentacion` junto a `index.html`. Bibliografía reúne el enunciado en PDF y los documentos de referencia del equipo en Google Docs.
+La navegación principal tiene seis accesos: Presentación, Enunciado, Casos, Arquitectura, Datacenters y Material de referencia. La presentación del caso 6 se puede recorrer desde el sitio o abrir en otra pestaña; para funcionar localmente necesita conservar la carpeta `presentacion` junto a `index.html`. Material de referencia reúne el enunciado en PDF y los documentos de referencia del equipo en Google Docs.
 
 Dentro de Casos, un índice lateral en escritorio y un selector compacto en móvil permiten elegir el caso. Las pestañas Caso completo, Problema, Falla, Garantía, Solución y Trade-off conservan esa elección. Caso completo muestra Problema, Fallas, Garantías, todas las Soluciones (incluidas S1/S2) y sus Trade-offs en el orden del documento, sin repetir las garantías en cada variante. Solución incluye el desarrollo y el diagrama de interacción; Trade-off explica capacidades, límites, garantías y costos. Los enlaces anteriores a Procesos y fallas abren Solución.
 
