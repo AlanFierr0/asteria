@@ -20,7 +20,7 @@ Las secciones y selecciones se pueden compartir mediante su URL, incluso al abri
 
 ## Lectura académica
 
-La ficha del Enunciado identifica a Universidad Austral, la materia y los integrantes, sin comisión ni fecha. La navegación utiliza las pestañas del caso y los botones, sin un segundo índice ni enlaces repetidos debajo de las fallas.
+La navegación utiliza las pestañas del caso y los botones, sin un segundo índice ni enlaces repetidos debajo de las fallas.
 
 Los enlaces con `section` conservan el destino al recargar o volver atrás. Saturación incluye una comparación desplegable de S1/S2 sobre admisión, caída de un nodo, partición y costos. Los rótulos Requisito, Propuesta y Límites y costos distinguen el enunciado de las decisiones de diseño.
 
