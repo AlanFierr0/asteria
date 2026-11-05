@@ -254,18 +254,16 @@ assert.equal(written, '#deployment?mode=partition', 'Restoring a URL must not ov
 
 assert.ok(!markup.includes('caseContents'), 'Case tabs replace the duplicate section index');
 assert.ok(!script.includes('caseReferences'), 'Failure views must not add repeated text links');
-const aids = Object.fromEntries(['glossaryTerms', 'caseGlossary', 'caseComparison', 'comparisonRows'].map(id => [id, element('div')]));
+const aids = Object.fromEntries(['caseComparison', 'comparisonRows'].map(id => [id, element('div')]));
 const academicContext = vm.createContext({ document: { createElement: element }, el: id => aids[id] });
 vm.runInContext(script.slice(script.indexOf('const caseSectionIds='), script.indexOf('let expandedDiagram=')), academicContext);
 for (const item of cases) {
   academicContext.renderAcademicAids(item);
   assert.equal(aids.caseComparison.hidden, item.id !== 'capacity');
-  assert.equal(aids.caseGlossary.hidden, aids.glossaryTerms.children.length === 0);
 }
 academicContext.renderAcademicAids(cases.find(item => item.id === 'capacity'));
 assert.equal(aids.comparisonRows.children.length, 4);
 academicContext.renderAcademicAids(cases.find(item => item.id === 'payments'));
-assert.ok(aids.glossaryTerms.children.some(node => node.textContent === 'Outbox'));
 assert.doesNotThrow(() => academicContext.jumpToCaseSection('unknown'));
 assert.doesNotThrow(() => academicContext.jumpToCaseSection('solution-S2'), 'A valid section absent from this case must be ignored');
 let jumpCalls = 0;

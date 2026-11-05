@@ -22,7 +22,7 @@ Las secciones y selecciones se pueden compartir mediante su URL, incluso al abri
 
 La ficha del Enunciado identifica a Universidad Austral, la materia y los integrantes, sin comisión ni fecha. La navegación utiliza las pestañas del caso y los botones, sin un segundo índice ni enlaces repetidos debajo de las fallas.
 
-Los enlaces con `section` conservan el destino al recargar o volver atrás. Saturación incluye una comparación desplegable de S1/S2 sobre admisión, caída de un nodo, partición y costos. Los rótulos Requisito, Propuesta y Límites y costos distinguen el enunciado de las decisiones de diseño. El glosario contextual explica únicamente los términos que aparecen en las soluciones del caso.
+Los enlaces con `section` conservan el destino al recargar o volver atrás. Saturación incluye una comparación desplegable de S1/S2 sobre admisión, caída de un nodo, partición y costos. Los rótulos Requisito, Propuesta y Límites y costos distinguen el enunciado de las decisiones de diseño.
 
 Solución y Datacenters permiten ampliar el diagrama. En pantallas chicas la vista ampliada se desplaza para mantener los rótulos legibles. Los procesos conservan su selector de pasos y su explicación dentro de la ampliación. Cerrar o pulsar Escape restaura el gráfico y sus controles en su posición original.
 
