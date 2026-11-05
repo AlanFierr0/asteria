@@ -70,9 +70,9 @@ assert.match(corrected.rewards.solutions[0].full, /designan a Estados Unidos com
 assert.match(corrected.rewards.solutions[0].full, /combate termina sin recompensas/);
 assert.match(corrected.entry.solutions[0].full, /pendiente de compensación/);
 assert.match(corrected.entry.solutions[0].full, /operación idempotente distinta/);
-assert.match(corrected.market.solutions[0].full, /identificador de solicitud y su resultado se guardan en esa misma transacción/);
-assert.match(corrected.market.solutions[0].full, /confirmación por sí sola no confirma la venta/);
-assert.match(corrected.market.solutions[0].full, /mayoría \(2 de 3\)/);
+assert.match(corrected.market.solutions[0].full, /identificador y el resultado de la solicitud se guardan junto con esos cambios/);
+assert.match(corrected.market.solutions[0].full, /todavía no que la venta haya terminado/);
+assert.match(corrected.market.solutions[0].full, /mayoría de sus réplicas \(2 de 3 datacenters\)/);
 assert.match(corrected.payments.solutions[0].full, /consulta al proveedor de pagos para recuperar autorizaciones/);
 assert.match(corrected.payments.guarantees[0].text, /Un pago autorizado/);
 assert.doesNotMatch(corrected.payments.solutions[0].full, /solo una captura confirmada habilita|la autorización no acredita oro/);
